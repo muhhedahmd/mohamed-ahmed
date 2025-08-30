@@ -1,0 +1,3 @@
+[environments.development]
+store = "test-store202000.myshopify.com"
+password = "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"
