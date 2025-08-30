@@ -1,0 +1,116 @@
+<div>
+  <h3 style="font-weight: bold ; font-size: 2rem;">
+     {%- case section.settings.select-Text-case -%}
+    {%- when "upcase" -%}
+      {{ section.settings.header_text | upcase }}
+    {%- when "downcase" -%}
+      {{ section.settings.header_text | downcase }}
+    {%- when "capitalize" -%}
+      {{ section.settings.header_text | capitalize }}
+      {%- else -%}
+  {%- endcase -%}
+  </h3>
+  <p>
+    {{ section.settings.header_caption
+    }}
+  </p>
+
+  {% content_for 'blocks' %}
+
+</div>
+
+
+<style>
+
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  .ecom-expert-header {
+    position: fixed;
+    padding: 1.3rem 2rem;
+    width: 100vw;
+    background-color: {{ section.settings.color }};
+    height: 6rem;
+  }
+  .ecom-expert-header > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+
+
+{% schema %}
+  {
+    "name": "Ecom Expert Header",
+    "tag": "header",
+    "class": "ecom-expert-header",
+    "blocks": [
+    {
+        "type": "ecom-expert-button"
+    }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "header_text",
+        "label": "Header Text",
+        "default": "Tisso Vison"
+      }, {
+        "type": "text",
+        "id": "header_caption",
+        "label": "Header Caption",
+        "default": "Find the ideal gift for your loved ones."
+      }, {
+        "type": "color",
+        "id": "color",
+        "label": "Background Color",
+        "default": "#f5f5f5"
+      } ,
+      {
+
+        "type": "select",
+        "id": "select-Text-case",
+        "label": "select Button Text Case",
+        "default": "upcase",
+        "options": [
+          {
+            "value": "upcase",
+            "label": "upcase"
+          }, {
+            "value": "downcase",
+            "label": "downcase"
+          }, {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }
+        ]
+      },
+    ],
+    "presets": [
+      {
+        "name": "Ecom Expert Header",
+        "settings": {
+            "header_text": "Tisso Vison",
+            "header_caption": "Find the ideal gift for your loved ones.",
+            "color": "#f5f5f5" ,
+            "select-Text-case" :"upcase"
+        },
+        "blocks": [
+            {
+                "type": "ecom-expert-button",
+                "settings": {
+                    "button_text": "choose gift",
+                    "select-Text-case": "capitalize",
+                    "select-varient": "primary"
+                }
+            }
+        ]
+      }
+    ]
+  }
+{% endschema %}

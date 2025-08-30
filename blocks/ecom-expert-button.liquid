@@ -1,0 +1,135 @@
+<button
+  onclick="location.href='{{ block.settings.button_url }}'"
+  class="ecom-expert-button"
+  {%- if block.settings.select-varient == 'primary' -%}
+  style="color: #000; background-color: #fff544;"
+  {%- else -%}
+  style="color: #fff; background-color: #000;"
+  {%- endif -%}>
+
+
+  {%- case block.settings.select-Text-case -%}
+    {%- when "upcase" -%}
+      {{ block.settings.button_text | upcase }}
+    {%- when "downcase" -%}
+      {{ block.settings.button_text | downcase }}
+    {%- when "capitalize" -%}
+      {{ block.settings.button_text | capitalize }}
+      {%- else -%}
+  {%- endcase -%}
+  {% comment %} {%- endcase -%} {% endcomment %}
+
+  {%- if block.settings.checkbox == true -%}
+    {%- if block.settings.image != blank -%}
+      <img
+        src="{{ block.settings.image | img_url: '100x' }}"
+        height="20"
+        width="20"
+        alt="button image">
+
+    {%- else -%}
+      <img
+        src="{{  "Arrow1.svg"  |  asset_url }}"
+        {%- if block.settings.select-varient == "secondary" -%}
+        style="filter: invert(1);"
+        {%- endif -%}
+        height="20"
+        width="20"
+        alt="button image">
+
+
+    {%- endif -%}
+  {%- endif -%}
+
+
+</button>
+
+
+<style>
+  .ecom-expert-button {
+    border: none;
+    outline: none;
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "ecom-expert-button.name",
+    "tag": "div",
+    "class": "ecom-expert-div",
+    "settings": [
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Shop Now"
+      },
+      {
+
+        "type": "select",
+        "id": "select-varient",
+        "label": "select Button variant",
+        "default": "primary",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary"
+          }, {
+            "value": "secondary",
+            "label": "Secondary"
+          }
+        ]
+      },
+      {
+
+        "type": "select",
+        "id": "select-Text-case",
+        "label": "select Button Text Case",
+        "default": "upcase",
+        "options": [
+          {
+            "value": "upcase",
+            "label": "upcase"
+          }, {
+            "value": "downcase",
+            "label": "downcase"
+          }, {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }
+        ]
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button URL",
+        "default": "/"
+      }, {
+        "type": "checkbox",
+        "id": "checkbox",
+        "label": "Enable image",
+        "default": true
+      }, {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Button Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "ecom-expert-button.name",
+        "settings": {
+          "button_text": "Shop Now",
+          "select-varient": "primary"
+
+        }
+      }
+    ]
+  }
+{% endschema %}

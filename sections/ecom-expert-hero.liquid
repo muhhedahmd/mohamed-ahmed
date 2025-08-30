@@ -1,0 +1,160 @@
+{%- assign main-title = "The Gift Guide" -%}
+{%- assign main-sub-title = "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season." -%}
+
+<div class="body-hero">
+  <div>
+
+    <div class="banner-img-hero img1">
+      <p class="" style="display: none;"></p>
+    </div> 
+  </div>
+
+  <div style="">
+    <div style=" display: flex;  flex-direction: column; justify-content: center; padding: .5rem 1rem; align-items: flex-start; gap: 3rem; height: 100%;">
+        <h2 style="font-size: 6rem; font-weight: bold;">
+            {{ section.settings.hero_title |  default : main-title }}
+        </h2>  
+        <p 
+        style="font-size: 2rem; line-height: 1.6; max-width: 600px;"
+        >
+            {{ section.settings.hero_subtitle |  default : main-sub-title }}
+        </p>
+        {% content_for 'blocks' %}
+
+
+    </div>
+    <div style="">
+
+
+      <div class="banner-img-hero img2">
+        <p class="" style="display: none;"></p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+
+  .body-hero {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+  }
+
+
+  .body-hero > div:nth-child(1) {
+    grid-row-start: 1;
+    grid-row-end: 5;
+  }
+  .body-hero > div:nth-child(2) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    grid-row-start: 5;
+    grid-row-end: 8;
+  }
+  .body-hero > div:nth-child(2) > div:nth-child(1) {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+  .body-hero > div:nth-child(2) > div:nth-child(2) {
+    grid-column-start: 3;
+    grid-column-end: 7;
+  }
+
+  .body-hero > div {
+    height: 100%;
+    overflow: hidden;
+  }
+  .banner-img-hero {
+    background-image: url({{ "lifestyle-2.svg" | asset_url }});
+     width: 100%; 
+     height: 100%;
+      background-size: cover;
+       background-position: 0 93%;
+        background-repeat: no-repeat;
+  }
+  .ecom-expert-hero {
+    overflow: hidden;
+    width: 100vw;
+    height: calc(100vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1.5rem;
+
+  }
+  .img1 {
+    background-image: url({{ section.settings.hero_image_1 |  image_url: width: 1920, height: 1080 }});
+  }
+  .img2 {
+    background-image: url({{ section.settings.hero_image_2 | image_url: width: 800, height: 600 }});
+  }
+
+
+
+</style>
+
+<script>
+    console.log("hero section loaded");
+    console.log("hero image 1:", "{{ section.settings.hero_image_1 |  asset_img_url: height: 'large' }}");
+    console.log("hero image 2:", "{{ section.settings.hero_image_2  }}");
+</script>
+
+{% schema %}
+  {
+    "name": "Ecom Expert Hero",
+    "tag": "section",
+    "class": "ecom-expert-hero",
+    "blocks": [
+    {
+        "type": "ecom-expert-button"
+    }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "hero_title",
+        "label": "Hero Title"
+        
+      }, {
+        "type": "textarea",
+        "id": "hero_subtitle",
+        "label": "Hero Subtitle"
+      }, {
+        "type": "image_picker",
+        "id": "hero_image_1",
+        "label": "Hero Image first"
+      }, {
+        "type": "image_picker",
+        "id": "hero_image_2",
+        "label": "Hero Image second"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Ecom Expert Hero",
+        "settings": {
+            "hero_image_1": "",
+            "hero_image_2":  "",
+            "hero_subtitle"  : "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season." ,
+            "hero_title" : "The Gift Guide"
+        },
+        "blocks": [{
+            "type": "ecom-expert-button",
+            "settings": {
+                "button_text": "Shop Now",
+                "select-Text-case": "capitalize",
+                "select-varient": "secondary"
+            }
+        }]
+      }
+    ]
+  }
+{% endschema %}
