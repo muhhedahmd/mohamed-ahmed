@@ -17,8 +17,9 @@
           "name": "ecom-expert-button.name",
           "settings": {
             "button_text": "choose gift",
-            "select": "primary",
+            "select-varient": "primary",
             "select-Text-case": "upcase",
+            "button_url": "/",
             "checkbox": true
           },
           "blocks": {}
@@ -35,18 +36,33 @@
         "select-Text-case": "upcase"
       }
     },
-    "ecom_expert_hero_R6jdkB": {
+    "ecom_expert_hero_HzJYmk": {
       "type": "ecom-expert-hero",
+      "blocks": {
+        "ecom_expert_button_dtn9GN": {
+          "type": "ecom-expert-button",
+          "settings": {
+            "button_text": "Shop Now",
+            "select-varient": "secondary",
+            "select-Text-case": "capitalize",
+            "button_url": "/",
+            "checkbox": true
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ecom_expert_button_dtn9GN"
+      ],
       "name": "Ecom Expert Hero",
       "settings": {
-        "hero_title": "Welcome to Our Store",
-        "hero_subtitle": "Discover the best products just for you."
+        "hero_title": "The Gift Guide",
+        "hero_subtitle": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
       }
-    },
-    
+    }
   },
   "order": [
     "header_group_ecom_expert_7mDr8L",
-    "ecom_expert_hero_R6jdkB",
+    "ecom_expert_hero_HzJYmk"
   ]
 }

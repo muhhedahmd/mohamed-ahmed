@@ -2,24 +2,37 @@
 {%- assign main-sub-title = "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season." -%}
 
 <div class="body-hero">
+
+
   <div>
+
 
     <div class="banner-img-hero img1">
       <p class="" style="display: none;"></p>
-    </div> 
+      <div class="btn-mobile">
+
+        {% content_for 'block' ,type: 'ecom-expert-button' , id: 'ecom-expert-button-2' %}
+        </div>
+
+    </div>
   </div>
 
   <div style="">
-    <div style=" display: flex;  flex-direction: column; justify-content: center; padding: .5rem 1rem; align-items: flex-start; gap: 3rem; height: 100%;">
-        <h2 style="font-size: 6rem; font-weight: bold;">
-            {{ section.settings.hero_title |  default : main-title }}
-        </h2>  
-        <p 
-        style="font-size: 2rem; line-height: 1.6; max-width: 600px;"
-        >
-            {{ section.settings.hero_subtitle |  default : main-sub-title }}
-        </p>
-        {% content_for 'blocks' %}
+
+
+
+
+    <div class=" text-section">
+      <h2 style="font-size: 4.357rem; font-weight: bold;">
+        {{ section.settings.hero_title | default: main-title }}
+      </h2>
+      <div>
+
+        <p style="">
+          {{ section.settings.hero_subtitle | default: main-sub-title }}
+          </p>
+          </div>
+      {% content_for 'block' , type: 'ecom-expert-button',  id: 'ecom-expert-button-1' %}
 
 
     </div>
@@ -31,19 +44,36 @@
       </div>
     </div>
 
+
+
+
   </div>
 
 </div>
 
+    <div 
+
+    style=" display: flex ; justify-content: center; align-items: center; font-size: 1.7rem ; height: 4rem; width: 100%; background: #f5f5f5;"
+    >
+    {{ section.settings.hero-caption | default: main-sub-title }}
+
+
+  </div>
+
 <style>
 
   .body-hero {
-    height: 100%;
+    height: calc(100vh - 4rem);
+  max-width: 100%; 
+  overflow: hidden;
     width: 100%;
     display: grid;
     grid-template-rows: repeat(7, 1fr);
   }
 
+  .btn-mobile{
+    display: none;
+  }
 
   .body-hero > div:nth-child(1) {
     grid-row-start: 1;
@@ -65,47 +95,184 @@
     grid-column-start: 3;
     grid-column-end: 7;
   }
+  .body-hero > div:nth-child(2)  .text-section{
+    display: flex;  
+    flex-direction: column;
+    justify-content: center;
+    padding: .5rem 1rem;
+    padding-left: 3rem;
+    align-items: flex-start;
+        gap: 3rem;
+         height: 100%;
+         transition: .2s all ease;
+  }
+   .body-hero > div:nth-child(2)  .text-section p {
+font-size: 2rem;
+
+  font-weight: 400;
+max-width: 52ch;
+
+  }
 
   .body-hero > div {
     height: 100%;
     overflow: hidden;
   }
   .banner-img-hero {
-    background-image: url({{ "lifestyle-2.svg" | asset_url }});
-     width: 100%; 
-     height: 100%;
-      background-size: cover;
-       background-position: 0 93%;
-        background-repeat: no-repeat;
+    background-image: url('{{ "lifestyle-2.svg" | asset_url }}');
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 0 93%;
+    background-repeat: no-repeat;
   }
   .ecom-expert-hero {
+    transition: all 0.4s ease;
     overflow: hidden;
-    width: 100vw;
-    height: calc(100vh);
+    width: 100vw;  
+    height: calc(100vh );  
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    gap: 1.5rem;
 
   }
   .img1 {
-    background-image: url({{ section.settings.hero_image_1 |  image_url: width: 1920, height: 1080 }});
+    background-image: url({{ section.settings.hero_image_1 | image_url: width: 1920, height: 1080 }});
   }
   .img2 {
     background-image: url({{ section.settings.hero_image_2 | image_url: width: 800, height: 600 }});
   }
+/* 
+  @media (max-width: 479px) {
+    body {
+      background-color: pink !important;
+    }
+  } */
+
+  
+  @media (max-width: 767px) {
+  .ecom-expert-hero {
+    display: flex;
+    height: calc(100vh - 6rem);
+  }
+
+    .body-hero > div:nth-child(2)  .text-section p {
+font-size: 2rem;
+
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 26ch; 
+
+  }
+    /* .body-hero > div:nth-child(2)  .text-section button{
+      position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+        padding: 1.25rem 2.8rem;
+        font-size: 1.7rem;
+    } */
+
+    .body-hero > div:nth-child(2) > div:nth-child(2) {
+      display: none;
+   }
+
+      /* .body-hero > div:nth-child(2) > div:nth-child(1) {
+        z-index: 2;
+        align-items:  center ;
+        justify-content: center;
+      position: static ;
+      top: 26% ;
+      left: 50%;
+      width: 100% ;
+      transform: translate(-50%, -50%); 
+      text-align: center; 
+      display:  flex;
+      align-items: center;
+      justify-content: center;
+   } */
+  
+   .body-hero > div:nth-child(1) {
+    width: 100%;
+  }
+  .body-hero > div:nth-child(2) {
+   display: block;
+  }
+  .body-hero  {
+    display:  flex ;
+    justify-items: start; 
+    align-items: center;
+    flex-direction: column-reverse;
+    width: 100%;
+    height: 100%;
+    
+}
+ .body-hero >  div:nth-child(1) >  .img1  {
+
+ display: flex;
+ justify-content: center;
+ align-items: center;
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  max-width: 100%;
+  }
+
+  .btn-mobile {
+    display: block;
+  }
+  .btn-mobile button {
+    padding: 1.7rem 3rem !important;
+    font-size: 1.6rem;
+  }
+   .btn-mobile button img {
+     width: 3rem;
+     height: 1.5rem;
+   }
+
+    
+  .body-hero > div:nth-child(2) .text-section button  {
+  display: none;
+  } 
+  .body-hero > div:nth-child(2) .text-section  {
+     text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+    
+  }
 
 
+  @media (min-width: 768px) and (max-width: 991px) {
+
+   .body-hero > div:nth-child(2) > div:nth-child(1) {
+    grid-column-start: 1;
+    grid-column-end: 4;
+   }
+   .body-hero > div:nth-child(2) > div:nth-child(2) {
+    grid-column-start: 4;
+    grid-column-end: 7;
+   }
+   
+
+  }
+
+
+  .main-hero-expanded {
+    transform: translateY(14rem);
+    overflow: hidden !important;
+  }
 
 </style>
 
-<script>
-    console.log("hero section loaded");
-    console.log("hero image 1:", "{{ section.settings.hero_image_1 |  asset_img_url: height: 'large' }}");
-    console.log("hero image 2:", "{{ section.settings.hero_image_2  }}");
-</script>
 
 {% schema %}
   {
@@ -113,16 +280,16 @@
     "tag": "section",
     "class": "ecom-expert-hero",
     "blocks": [
-    {
+      {
         "type": "ecom-expert-button"
-    }
+      }
     ],
     "settings": [
       {
         "type": "text",
         "id": "hero_title",
         "label": "Hero Title"
-        
+
       }, {
         "type": "textarea",
         "id": "hero_subtitle",
@@ -135,25 +302,28 @@
         "type": "image_picker",
         "id": "hero_image_2",
         "label": "Hero Image second"
+      }, {
+        "type": "text",
+        "id": "hero-caption",
+        "label": "Hero Caption",
+        "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
       }
     ],
     "presets": [
       {
         "name": "Ecom Expert Hero",
         "settings": {
-            "hero_image_1": "",
-            "hero_image_2":  "",
-            "hero_subtitle"  : "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season." ,
-            "hero_title" : "The Gift Guide"
+          "hero_image_1": "",
+          "hero_image_2": "",
+          "hero_subtitle": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+          "hero_title": "The Gift Guide"
         },
-        "blocks": [{
-            "type": "ecom-expert-button",
-            "settings": {
-                "button_text": "Shop Now",
-                "select-Text-case": "capitalize",
-                "select-varient": "secondary"
-            }
-        }]
+        "blocks": [
+          {
+            "type": "ecom-expert-button"
+
+          }
+        ]
       }
     ]
   }

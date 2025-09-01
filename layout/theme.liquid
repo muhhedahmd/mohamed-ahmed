@@ -354,7 +354,9 @@ body {
   </head>
 
   {%- if page.handle == "ecomexpert" -%}
-    <body class="gradient ecomexpert{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+
+
+    <body style="width: 100vw; overflow-x: hidden;" class="gradient ecomexpert{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
       {% sections 'header-group-ecom-expert' %}
 
       <main
@@ -366,6 +368,7 @@ body {
       </main>
 
     </body>
+    <script src="{{ 'EcomHeaderMenu.js' | asset_url }}" defer="defer"></script>
 
   {%- else -%}
     <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

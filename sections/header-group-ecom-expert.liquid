@@ -1,58 +1,264 @@
-<div>
-  <h3 style="font-weight: bold ; font-size: 2rem;">
-     {%- case section.settings.select-Text-case -%}
-    {%- when "upcase" -%}
-      {{ section.settings.header_text | upcase }}
-    {%- when "downcase" -%}
-      {{ section.settings.header_text | downcase }}
-    {%- when "capitalize" -%}
-      {{ section.settings.header_text | capitalize }}
-      {%- else -%}
-  {%- endcase -%}
-  </h3>
-  <p>
-    {{ section.settings.header_caption
-    }}
-  </p>
+<header  class="ecom-expert-header"  aria-expanded="false">
 
-  {% content_for 'blocks' %}
+  <div class="header-body">
+  
+    <div class="main-header">
+  
+      <button class="button-menu">
+        <img
+          class="menu-icon"
+          src="{{ "Group 1000008115.svg" |  asset_url }}"
+          alt="menu-icon"
+          width="24"
+          height="24" />
+        <img
+          class="close-icon"
+          src="{{ "Group 1000008182.svg" |  asset_url }}"
+          alt="close-icon"
+          width="20"
+          height="20" />
+      </button>
+      <h3 style="">
+  
+        {%- case section.settings.select-Text-case -%}
+          {%- when "upcase" -%}
+            {{ section.settings.header_text | upcase }}
+          {%- when "downcase" -%}
+            {{ section.settings.header_text | downcase }}
+          {%- when "capitalize" -%}
+            {{ section.settings.header_text | capitalize }}
+            {%- else -%}
+        {%- endcase -%}
+      </h3>
+      <p class="caption">
+        {{ section.settings.header_caption
+        }}
+      </p>
+      <div class="spacer">
+  
+      </div>
+    </div>
+  
+  
+    <div class="header-button">
+      
+      <p class="caption">
+        Find the ideal gift for your loved ones
+      </p>
+  
+      {% content_for 'blocks' %}
+    </div>
+  
+  </div>
+</header>
 
-</div>
+<script>
+  
+  
+  window.headerAssets =  {
+        closeIcon: '{{ "Group 1000008115.svg" |  asset_url }}',
+        menuIcon: '{{ "Group 1000008182.svg" |  asset_url }}'
+      }
+  document.addEventListener('shopify:section:load', function(event) {
+  console.log(event , "loaded")
+    if (event.detail.sectionId === '{{ section.id }}') {
+      if (window.ecomHeaderMenu) {
+        window.ecomHeaderMenu.destroy();
+      }
+      window.ecomHeaderMenu = new EcomHeaderMenu();
+      
+    }
+  });
+</script>
 
 
 <style>
+  header .header-button {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
 
+    background-color: #f5f5f5;
+    transition: height 0.4s ease;
+  }
+
+  header .caption {
+    font-size: 1.3rem;
+    color: #000;
+  }
+  header .header-button {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    flex-direction: column;
+  }
+  .header-body {
+    padding: 0 1.6rem;
+  }
+  header .main-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.3rem 2.1rem;
+    height: 100%;
+    width: 56%;
+  }
+  .ecom-expert-header .header-body h3 {
+    font-weight: bold;
+    font-size: 2rem;
+  }
+  .header-button .caption {
+    display: none;
+  }
+
+
+  .spacer {
+    display: none;
+  }
+
+  .button-menu {
+    display: none;
+  }
+
+
+  @media (max-width: 767px) {
+    .button-menu {
+      position: relative;
+
+    }
+    header .header-button {
+      align-items: center;
+      width: 100%;
+    }
+
+    header .close-icon {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      transition: 0.3s all ease;
+    }
+
+    header .close-icon {
+      transition: 0.3s all ease;
+    }
+    header[aria-expanded="true"] .close-icon {
+      visibility: visible;
+      opacity: 1;
+    }
+    header[aria-expanded="true"] .menu-icon {
+      visibility: hidden;
+      opacity: 0;
+    }
+    header[aria-expanded="false"] .close-icon {
+      visibility: hidden;
+      opacity: 0;
+    }
+    header[aria-expanded="false"] .menu-icon {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    header .main-header {
+      width: 100%;
+    }
+    header .button-menu {
+      display: block;
+      border: none;
+      cursor: pointer;
+    }
+    .spacer {
+      display: block;
+    }
+    header .header-button button {
+      padding: 1.2rem 6.1rem !important;
+      font-size: 1.6rem;
+    }
+    .header-button .caption {
+      display: block;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #000;
+      margin-bottom: 1rem;
+    }
+    header .header-button {
+      height: 0;
+    }
+    .caption {
+      display: none;
+    }
+    .ecom-expert-header .header-body {
+      flex-direction: column;
+      max-width: 100%;
+
+    }
+    .header-button {
+      display: block;
+    }
+    .ecom-expert-header {
+      position: relative !important;
+      z-index: 100 !important;
+    }
+    .ecom-expert-header .header-body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      padding: 0.5rem 2rem;
+    }
+    .ecom-expert-header .header-body h3 {
+      font-size: 2.6rem;
+    }
+    .expanded {
+      height: 12rem !important;
+    }
+
+  }
+
+
+  .button-test:hover .header-body {
+    background-color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    height: 14rem !important;
+  }
   * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
+
+
   .ecom-expert-header {
+    transition: 0.4s all ease;
     position: fixed;
-    padding: 1.3rem 2rem;
-    width: 100vw;
+    width: 100%;
     background-color: {{ section.settings.color }};
     height: 6rem;
   }
-  .ecom-expert-header > div {
+  .ecom-expert-header .header-body {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
+
 </style>
 
 
 {% schema %}
   {
     "name": "Ecom Expert Header",
-    "tag": "header",
-    "class": "ecom-expert-header",
+
     "blocks": [
-    {
+      {
         "type": "ecom-expert-button"
-    }
+      }
     ],
     "settings": [
       {
@@ -70,8 +276,7 @@
         "id": "color",
         "label": "Background Color",
         "default": "#f5f5f5"
-      } ,
-      {
+      }, {
 
         "type": "select",
         "id": "select-Text-case",
@@ -89,26 +294,26 @@
             "label": "Capitalize"
           }
         ]
-      },
+      }
     ],
     "presets": [
       {
         "name": "Ecom Expert Header",
         "settings": {
-            "header_text": "Tisso Vison",
-            "header_caption": "Find the ideal gift for your loved ones.",
-            "color": "#f5f5f5" ,
-            "select-Text-case" :"upcase"
+          "header_text": "Tisso Vison",
+          "header_caption": "Find the ideal gift for your loved ones.",
+          "color": "#f5f5f5",
+          "select-Text-case": "upcase"
         },
         "blocks": [
-            {
-                "type": "ecom-expert-button",
-                "settings": {
-                    "button_text": "choose gift",
-                    "select-Text-case": "capitalize",
-                    "select-varient": "primary"
-                }
+          {
+            "type": "ecom-expert-button",
+            "settings": {
+              "button_text": "choose gift",
+              "select-Text-case": "capitalize",
+              "select-varient": "primary"
             }
+          }
         ]
       }
     ]
