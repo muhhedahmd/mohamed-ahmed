@@ -1,0 +1,30 @@
+<button
+  style="top: {{ pos_y | default: 10 }}%; left: {{ pos_x | default: 10 }}%;"
+  id="dialog-{{ product.id}}"
+  data-product-id="{{ product.id }}"
+  class="ecom-dialog-trigger">
+  <span>+</span>
+
+  {{ pos-x
+  }}
+  {{ pos-y
+  }}
+</button>
+
+
+<style>
+
+  .ecom-dialog-trigger {
+    position: absolute;
+    border-radius: 9999px;
+    padding: 0.2rem 0.5rem;
+    box-shadow: 1px 1px 3px #333;
+    background: #f5f5f5;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    line-height: 1;
+    top: {{ block.settings.position-y | default: 10 }}px;
+    left: {{ block.settings.position-x | default: 10 }}px;
+  }
+</style>

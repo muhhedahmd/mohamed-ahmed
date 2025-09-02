@@ -1,0 +1,104 @@
+<button class="secondary ecom-expert-button {{ class }}">
+  <div class="content-btn">
+    {{ button_text | upcase }}
+
+
+    {% comment %} {%- endcase -%} {% endcomment %}
+
+
+    <img
+      class="arrow-icon"
+      src="{{  "Arrow1.svg"  |  asset_url }}"
+      height="20"
+      width="20"
+      alt="button image">
+
+
+  </div>
+
+
+</button>
+
+
+<style>
+  .ecom-expert-button {
+
+    overflow: hidden;
+    position: relative;
+    border: none;
+    outline: none;
+    padding: 0.9rem 2.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .primary {
+    color: #000;
+    background-color: #fff544;
+  }
+  .secondary {
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: #000;
+  }
+
+  .ecom-expert-button::before {
+    transition: all 0.6s ease;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    content: "";
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .content-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: all 0.6s ease;
+    position: relative;
+    z-index: 1;
+  }
+  .ecom-expert-button:hover::before {
+    right: 0;
+  }
+
+  .primary::before {
+    background: #000;
+  }
+
+  .secondary::before {
+    background: #fff;
+  }
+
+  .primary:hover .content-btn {
+
+    color: #fff;
+  }
+  .secondary:hover .content-btn {
+    color: #000;
+  }
+
+  .secondary .content-btn img {
+    filter: invert(1);
+  }
+
+  .primary:hover .content-btn img {
+
+    filter: invert(1);
+  }
+  .secondary:hover .content-btn img {
+    filter: invert(0);
+
+  }
+
+  .secondary:hover {
+    border: 0.5px solid #000;
+  }
+
+</style>

@@ -35,7 +35,7 @@ class EcomHeaderMenu {
             return;
         }
         
-        if (this.header) this.header.setAttribute("aria-expanded", "false"); 
+        if (this.header ) this.header.setAttribute("aria-expanded", "false"); 
         this.bindEvents();
         this.isInitialized = true;
     }

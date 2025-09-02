@@ -1,9 +1,8 @@
-<header  class="ecom-expert-header"  aria-expanded="false">
-
+<header class="ecom-expert-header" aria-expanded="false">
   <div class="header-body">
-  
+
     <div class="main-header">
-  
+
       <button class="button-menu">
         <img
           class="menu-icon"
@@ -19,7 +18,7 @@
           height="20" />
       </button>
       <h3 style="">
-  
+
         {%- case section.settings.select-Text-case -%}
           {%- when "upcase" -%}
             {{ section.settings.header_text | upcase }}
@@ -34,22 +33,21 @@
         {{ section.settings.header_caption
         }}
       </p>
-      <div class="spacer">
-  
-      </div>
+      <div class="spacer"></div>
     </div>
-  
-  
+
+
     <div class="header-button">
-      
+
       <p class="caption">
         Find the ideal gift for your loved ones
       </p>
-  
+
       {% content_for 'blocks' %}
     </div>
-  
+
   </div>
+
 </header>
 
 <script>
@@ -57,8 +55,11 @@
   
   window.headerAssets =  {
         closeIcon: '{{ "Group 1000008115.svg" |  asset_url }}',
-        menuIcon: '{{ "Group 1000008182.svg" |  asset_url }}'
+        menuIcon: '{{ "Group 1000008182.svg" |  asset_url }}',
+            Arrow1  : "{{  "Arrow1.svg"  |  asset_url }}",
+            arrowDown : "{{ "Vector.svg" | asset_url }}"
       }
+  
   document.addEventListener('shopify:section:load', function(event) {
   console.log(event , "loaded")
     if (event.detail.sectionId === '{{ section.id }}') {

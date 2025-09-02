@@ -49,6 +49,30 @@
             "checkbox": true
           },
           "blocks": {}
+        },
+        "ecom-expert-button-2": {
+          "type": "ecom-expert-button",
+          "static": true,
+          "settings": {
+            "button_text": "Shop Now",
+            "select-varient": "primary",
+            "select-Text-case": "upcase",
+            "button_url": "/",
+            "checkbox": true
+          },
+          "blocks": {}
+        },
+        "ecom-expert-button-1": {
+          "type": "ecom-expert-button",
+          "static": true,
+          "settings": {
+            "button_text": "Shop Now",
+            "select-varient": "primary",
+            "select-Text-case": "upcase",
+            "button_url": "/",
+            "checkbox": true
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -57,12 +81,201 @@
       "name": "Ecom Expert Hero",
       "settings": {
         "hero_title": "The Gift Guide",
-        "hero_subtitle": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+        "hero_subtitle": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "hero-caption": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      }
+    },
+    "ecom_expert_grid_yjXa9L": {
+      "type": "ecom-expert-grid",
+      "blocks": {
+        "ecom_product_q9iwhT": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "black-leather-bag"
+          },
+          "blocks": {
+            "ecom_dialog_product_yPeWPR": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 60,
+                "position-y": 55
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_yPeWPR"
+          ]
+        },
+        "ecom_product_3HfH78": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "blue-silk-tuxedo"
+          },
+          "blocks": {
+            "ecom_dialog_product_XMVfqT": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 87,
+                "position-y": 50
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_XMVfqT"
+          ]
+        },
+        "ecom_product_3pXhWA": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "chequered-red-shirt"
+          },
+          "blocks": {
+            "ecom_dialog_product_B9XmjK": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 64,
+                "position-y": 20
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_B9XmjK"
+          ]
+        },
+        "ecom_product_axVFFr": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "classic-leather-jacket"
+          },
+          "blocks": {
+            "ecom_dialog_product_G846tY": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 72,
+                "position-y": 20
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_G846tY"
+          ]
+        },
+        "ecom_product_CMVeH8": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "classic-varsity-top"
+          },
+          "blocks": {
+            "ecom_dialog_product_m4CpMp": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 51,
+                "position-y": 29
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_m4CpMp"
+          ]
+        },
+        "ecom_product_KHEdeK": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "dark-denim-top"
+          },
+          "blocks": {
+            "ecom_dialog_product_r43iKg": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 78,
+                "position-y": 41
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_r43iKg"
+          ]
+        },
+        "ecom_product_e4xhjL": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "floral-white-top"
+          },
+          "blocks": {
+            "ecom_dialog_product_4mmnWg": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 23,
+                "position-y": 57
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_4mmnWg"
+          ]
+        },
+        "ecom_product_x8TzyN": {
+          "type": "ecom-product",
+          "name": "ecom-product.name",
+          "settings": {
+            "product": "led-high-tops"
+          },
+          "blocks": {
+            "ecom_dialog_product_V3JakF": {
+              "type": "ecom-dialog-product",
+              "name": "ecom-dialog-product",
+              "settings": {
+                "position-x": 70,
+                "position-y": 57
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "ecom_dialog_product_V3JakF"
+          ]
+        }
+      },
+      "block_order": [
+        "ecom_product_q9iwhT",
+        "ecom_product_3HfH78",
+        "ecom_product_3pXhWA",
+        "ecom_product_axVFFr",
+        "ecom_product_CMVeH8",
+        "ecom_product_KHEdeK",
+        "ecom_product_e4xhjL",
+        "ecom_product_x8TzyN"
+      ],
+      "name": "ecom-expert-grid",
+      "settings": {
+        "product_list_title": "Tisso vision in the wild"
       }
     }
   },
   "order": [
     "header_group_ecom_expert_7mDr8L",
-    "ecom_expert_hero_HzJYmk"
+    "ecom_expert_hero_HzJYmk",
+    "ecom_expert_grid_yjXa9L"
   ]
 }

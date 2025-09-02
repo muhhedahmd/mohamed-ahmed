@@ -1,0 +1,400 @@
+<section class="product-grid-section">
+  <h2>
+    {{ section.settings.product_list_title | default: 'Tisso vison in the wild' }}
+  </h2>
+  <div class="product-grid">
+    {%- if section.blocks.size == 0 -%}
+      {% for item in (1..6) %}
+        <div class="product-item ">
+
+          {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+        </div>
+      {% endfor %}
+
+      {% for item in (1..6) %}
+        <div class="product-item ">
+
+          {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+        </div>
+      {% endfor %}
+    {%- else -%}
+      {% content_for 'blocks' %}
+    {%- endif -%}
+  </div>
+</section>
+
+
+{{ "ecom-dialog.js" | asset_url | script_tag }}
+<script>
+  
+  
+  
+    window.Dialog = new Dialog({});
+      document.addEventListener('shopify:section:load', function(event) {
+  console.log(event , "loaded")
+    if (event.detail.sectionId === '{{ section.id }}') {
+      if (window.Dialog) {
+         window.Dialogdestroy();
+      }
+      window.Dialog = new Dialog();
+      
+    }
+  });
+</script>
+<div class="dialog-content"></div>
+
+
+<div class="overlay " style=" transition: .4s all ease ;  visibility: hidden; opacity: 0; z-index: 100; 
+background-color: rgba(0, 0, 0, 0.5); position: fixed ;
+ width: 100vw; height: 100vh; height: 100%; top: 0; left: 0;">
+
+
+</div>
+
+
+<style>
+
+  .dialog-content select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #fff;
+    border: 1px solid #000;
+    padding: 0.8rem 0.4rem;
+    outline: none;
+  }
+
+  .select-wrapper:focus-within .select-custom-arrow {
+    transform: rotateX(180deg);
+    top: 22%;
+
+  }
+  .inline-wrap-5 {
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .dialog-content .selected {
+    background-color: #000 !important;
+    color: #fff !important;
+
+  }
+
+  .select-custom-arrow {
+    transition: 0.4s all ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: '';
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    width: 2rem;
+    height: 2rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+
+  }
+
+  .dialog-content select option {
+    text-align: center;
+  }
+  .dialog-content select option:first-child {
+    text-align: start;
+  }
+
+  .dialog-content .select-wrapper {
+    position: relative;
+  }
+  .dialog-content .btn-color-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-items: start;
+  }
+  .AddCart-dialog:hover {
+    color: black;
+  }
+  .dialog-content form {
+    width: 100%;
+    height: 100%;
+  }
+  .AddCart-dialog:hover .content-btn .arrow-icon {
+    filter: invert(1);
+
+  }
+  .dialog-content .btn-color-marker {
+    position: absolute;
+    width: 5.18px;
+    height: 37.44px;
+    left: 2%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.1px solid #000;
+  }
+  .dialog-content .select-wrapper::after {
+    height: 96%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    width: 5rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    border-left: 1px solid;
+
+  }
+
+
+  .dialog-content {
+    transition: 0.4s all ease;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 101;
+    background-color: #fff;
+    box-shadow: 4px 3px 14px #555555;
+    position: fixed;
+    min-height: 447px;
+    max-width: 373px;
+    width: max-content;
+    height: 447px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .dialog-body {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .dialog-header {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .dialog-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dialog-product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .dialog-product-img {
+    object-fit: cover;
+    width: 120px;
+    height: 140px;
+    background-color: aquamarine;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dialog-product-info {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5rem;
+  }
+
+  .dialog-product-title {
+    margin-bottom: 1rem;
+  }
+
+  .dialog-product-price {
+    font-weight: bold;
+  }
+
+  .dialog-product-desc {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .dialog-colors {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5rem;
+  }
+
+  .dialog-color-options {
+    width: 100%;
+    display: flex;
+  }
+
+  .dialog-color-btn {
+    width: 50%;
+    padding: 1rem;
+    text-align: start;
+    background-color: #fff;
+    border: 0.5px solid #000;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .dialog-sizes {
+    width: 100%;
+  }
+
+  .dialog-size-select {
+    border: 1px solid #000;
+    width: 100%;
+    padding: 0.8rem 0.4rem;
+    outline: none;
+  }
+
+  .dialog-color-btn {
+    transition: 0.4s all ease;
+  }
+  .dialog-color-btn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  .dialog-footer {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+  }
+
+  .AddCart-dialog {
+    width: 100%;
+
+  }
+  select {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .product-image {
+    border-radius: 1rem;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-grid-section .product-item {
+    position: relative;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 1.3rem;
+    box-shadow: 2px 3px 4px #ddd;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  .product-grid-section {
+    padding: 4rem;
+    display: flex;
+    justify-items: center;
+    align-items: start;
+    flex-direction: column;
+    width: 97vw;
+  }
+
+  .product-grid {
+    gap: 3rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px 0;
+    grid-auto-rows: minmax(400px, auto);
+  }
+
+  .product-item {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 1200px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .product-grid-section {
+      width: 96vw;
+      padding: 1rem 0.5rem !important;
+    }
+
+    .product-grid-section .product-item {
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden;
+      min-height: 300px;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "ecom-expert-grid",
+    "blocks": [
+      {
+        "type": "ecom-product"
+      }
+    ],
+
+    "settings": [
+      {
+        "type": "text",
+        "label": "Product List Title",
+        "id": "product_list_title",
+        "default": "Tisso vision in the wild"
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "ecom-expert-grid",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}
