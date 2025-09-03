@@ -16,7 +16,7 @@ header .caption {
 }
 
 header .header-button {
-  width: 30%;
+  width:  fit-content;
   display: flex;
   justify-content: center;
   align-items: end;
@@ -35,7 +35,7 @@ header .main-header {
   gap: 1rem;
 
   height: 100%;
-  width: 56%;
+  width:fit-content
 }
 
 .ecom-expert-header .header-body h3 {
@@ -192,7 +192,7 @@ header .main-header {
 }
 
 .ecom-expert-header .header-body {
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: space-between;
   align-items: center;

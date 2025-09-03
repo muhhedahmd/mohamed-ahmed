@@ -118,7 +118,9 @@ class ShopifyCartManager {
         if (this.bulletTost.classList.contains("animate")) {
             this.overlay.style.visibility = "visible"
             this.overlay.style.opacity = "1"
+            document.body.style.overflow = "hidden"
         } else {
+            document.body.style.overflowY = "auto"
             this.overlay.style.visibility = "hidden"
             this.overlay.style.opacity = "0"
         }
@@ -131,6 +133,8 @@ class ShopifyCartManager {
         this.bulletTostInner.classList.remove("bullet-tost-header")
         this.overlay.style.visibility = "hidden"
         this.overlay.style.opacity = "0"
+            document.body.style.overflowY = "auto"
+
     }
 
     updateBulletTostCount() {

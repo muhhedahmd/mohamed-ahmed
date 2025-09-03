@@ -17,6 +17,7 @@
           width="20"
           height="20" />
       </button>
+
       <h3 style="">
 
         {%- case section.settings.select-Text-case -%}
@@ -29,12 +30,13 @@
             {%- else -%}
         {%- endcase -%}
       </h3>
-      <p class="caption">
-        {{ section.settings.header_caption
-        }}
-      </p>
-      <div class="spacer"></div>
+
+
     </div>
+    <p class="caption">
+      {{ section.settings.header_caption
+      }}
+    </p>
 
 
     <div class="header-button">
