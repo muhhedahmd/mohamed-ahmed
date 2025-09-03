@@ -15,53 +15,21 @@ The theme is designed with a focus on reusable components, dynamic product rende
 
 ---
 
-## 📂 Project Structure
-```bash
-templates/
-  customers/
-    account.liquid
-    login.liquid
-    register.liquid
-    addresses.liquid
-
-sections/
-  ecom-product.liquid
-  ecom-dialog-product.liquid
-  ecom-cart.liquid
-  ecom-toast.liquid
-  ...
-
-assets/
-  ecom-product-card.css
-  ecom-cart.js
-  ecom-dialog.js
-  ...
-⚡ Note: Most custom development work is inside files starting with ecom-.
-
+## 🔗 Live Preview
+Storefront URL: [Click here](https://elsayed-ahmed-mohamed-48-teststore.myshopify.com/pages/ecomexpert?pb=0)  
+Password: `elsayedahmedmohamed123`
+---
+## 📂 Custom Files
+All custom work is inside files starting with **`ecom-`**:
+---
 🔑 Store Preview
 Storefront URL: Live Preview
 
 Password: elsayedahmedmohamed123
 
-🛠️ Setup
-Clone the repo:
-
-bash
-Copy code
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
-Use Shopify CLI to serve the theme locally:
-
-bash
-Copy code
-shopify theme serve
-Modify sections and assets under sections/ and assets/.
 
 🧪 Test Account (Time Doctor)
 For productivity tracking during development, a temporary Time Doctor account was used.
 You can use this account for testing:
-
-graphql
-Copy code
 Email:    asshxx1234567@gmail.com
 Password: asshxx1234567#A
