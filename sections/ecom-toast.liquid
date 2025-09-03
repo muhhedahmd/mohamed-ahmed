@@ -1,0 +1,359 @@
+<div class="bullet-tost">
+  <div class="bullet-tost-inner">
+    <h3>
+      Cart Items
+    </h3>
+    <div>
+
+      <button class="anim-btn">
+
+        <img
+          src="{{"icon-cart.svg "|  asset_url }}"
+          alt="shopping cart icon"
+          height="60"
+          width="60" />
+        <p class="bullet-tost-count"></p>
+      </button>
+    </div>
+  </div>
+  <div class="bullet-tost-body"></div>
+  <div class="bullet-tost-footer">
+    <div class="cart-summary">
+      <p class="summary-items">Items:
+        <span id="summary-items">0</span>
+      </p>
+      <p class="summary-subtotal">Subtotal:
+        <span id="summary-subtotal">$0.00</span>
+      </p>
+    </div>
+    <div style="gap: .5rem; display: flex; justify-content: space-between; align-items: center;">
+
+      <button
+        style="flex:3;"
+        onclick="location.href='/checkout'"
+        class="secondary ecom-expert-button {{ class }}">
+        <div class="content-btn">
+          Checkout
+
+        </div>
+      </button>
+
+      <button
+        style="flex:3;"
+        onclick="location.href='/cart'"
+        class="cart  primary ecom-expert-button {{ class }}">
+        <div class="content-btn">
+
+          Cart
+        </div>
+      </button>
+
+      <button style="flex:1; border: 1px solid transparent;" class="clear-cart secondary ecom-expert-button ">
+        <div class="content-btn">
+
+          Clear
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+
+  .clear-cart {
+    background: rgb(255, 48, 48);
+    border: 1px solid transparent;
+  }
+  .clear-cart:hover::before {
+    background: rgb(255, 255, 255);
+
+    color: rgb(255, 48, 48);
+    border: 1px solid rgb(255, 48, 48);
+  }
+
+
+  .cart {
+    transition: right color 0.6s ease;
+    background: #fff544;
+    border: 1px solid transparent;
+  }
+  .cart:before {
+    background: rgb(255, 255, 255);
+    color: #c9bf00;
+    border: 1px solid #fff544;
+  }
+  .cart:hover::before {
+    transition: right color 0.6s ease;
+    background: rgb(255, 255, 255);
+
+    color: #c9bf00;
+    border: 1px solid #fff544;
+  }
+  .cart:hover .content-btn {
+    color: #000000;
+
+  }
+
+
+  .cart {}
+.bullet-tost-footer {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid #ddd;
+  background: #fff;
+}
+.animate .bullet-tost-footer {
+  display: flex;
+}
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+}
+.cart-summary p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.anim-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bullet-tost {
+  min-height: 5rem;
+  transition: 0.4s all ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background))
+  , 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  position: fixed;
+  width: 5rem;
+  height: 5rem;
+  top: 90%;
+  left: 96%;
+  background-color: rgb(245, 245, 245);
+  z-index: 51;
+  /* transition-delay: height 0.4s ease; */
+}
+.animate {
+  overflow: hidden;
+  height: 61rem !important;
+  top: 33%;
+  width: 30vw !important;
+  border-radius: 12px;
+  left: 68%;
+  flex-direction: column;
+  align-items: start;
+  justify-content: flex-start;
+  min-height: 30vh !important;
+}
+.bullet-tost .bullet-tost-body {
+  display: none;
+
+}
+.animate .bullet-tost-body {
+  height: 73%;
+  overflow: auto;
+  display: block !important;
+}
+.bullet-tost-inner {
+
+  transition: 0.4s all ease;
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bullet-tost-count {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: rgb(255, 52, 52);
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.animate .bullet-tost-count {
+  font-size: 1.2rem;
+}
+
+.bullet-tost-inner > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.bullet-tost-inner h3 {
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+}
+.bullet-tost-header {
+  padding: 0 1rem;
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+}
+.bullet-tost-header > div {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+}
+.bullet-tost-header h3 {
+  font-size: 3rem;
+  font-weight: bold;
+  visibility: visible;
+  opacity: 1;
+  display: block;
+  margin: 0;
+}
+.overlay.bullet {
+  z-index: 50;
+}
+
+.cart-item-quantity . {
+  opacity: .5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+.bullet-tost-body {
+  height: 36rem;
+}
+@media screen and (max-height: 720px) {}
+
+@media screen and (max-height: 900px) {
+  .animate {
+    top: 2%;
+  }
+  .animate .bullet-tost-body {
+    height: 36rem;
+  }
+
+  .bullet-tost img {}
+}
+@media (max-width: 1200px) {
+  .animate {
+    width: 44vw !important;
+    left: 54% !important;
+    height: max-content;
+  }
+  .bullet-tost {
+    left: 94%;
+
+  }
+}
+
+@media (max-width: 768px) {
+  .animate {
+    width: 69vw !important;
+    left: 25% !important;
+    height: 69rem !important;
+    top: 25% !important;
+  }
+  .bullet-tost-inner h3 {
+    font-size: 2rem;
+  }
+  .animate .bullet-tost-body {
+
+    height: 76%;
+  }
+  .animate .cart-item {
+    margin: 0;
+  }
+  .cart-item-details h3 {
+    font-size: 1.6rem;
+  }
+  .cart-item-details p {
+    font-size: 1.2rem;
+  }
+  .bullet-tost {
+    min-height: 4rem;
+    height: 4rem;
+    width: 4rem;
+    left: 90%;
+    top: 94%;
+  }
+  .bullet-tost img {
+    width: 4rem;
+    height: 4rem;
+  }
+
+}
+@media (max-width: 425px) {
+  .animate {
+    width: 94vw !important;
+    top: 12% !important;
+    left: 3% !important;
+  }
+  .bullet-tost {
+    left: 84%
+  }
+}
+
+
+</style>
+<div class="overlay bullet">
+  <span></span>
+</div>
+
+{% schema %}
+
+  {
+    "name": "ecom-toast",
+    "tag": "section",
+    "class": "ecom-toast",
+    "settings": [
+      {
+        "type": "checkbox",
+        "label": "show notification",
+        "id": "checkbox"
+      }
+    ],
+    "presets": [
+      {
+        "name": "ecom-toast",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

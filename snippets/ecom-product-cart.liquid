@@ -1,0 +1,124 @@
+<div class="cart-items">
+  {% for product in cart.items %}
+    <div class="cart-item">
+      <img
+        src="{{ product.image | image_url: width: 200, height: 200 }}"
+        alt="{{ product.title }}"
+        width="100px"
+        height="100px"
+        class="cart-item-image">
+      <div class="cart-item-details">
+
+        <h3>{{ product.title }}</h3>
+        <div class="cart-item-quantity " data-variant-id="{{ product.variant_id }}">
+          <button class="increase-button button-qty ">+
+          </button>
+          <p class="product-quantity">
+            {{ product.quantity }}</p>
+
+          <button class=" decrease-button button-qty">
+            -
+          </button>
+        </div>
+        <p>{{ product.final_line_price | money }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+
+<style>
+  .loading {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  .button-qty:hover {
+    background: #000;
+    color: #fff
+  }
+  .button-qty {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    background: transparent;
+    border: none;
+
+    border-right: 1px solid;
+    height: 3rem;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .decrease-button {
+    border-left: 1px solid;
+    border-right: none
+  }
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .cart-item-quantity p {
+    padding: 0 1rem;
+  }
+  .cart-item-quantity {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #000;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .cart-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .cart-item-details h3 {
+    font-size: 2rem;
+    margin: 0;
+    color: #333;
+  }
+
+  .cart-item-details p {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #666;
+  }
+  .loading-wrapper {
+    opacity: .5;
+
+    cursor: not-allowed;
+  }
+  .loading-wrapper button {
+    cursor: not-allowed;
+  }
+  .loading-wrapper button:hover {
+    background-color: #fff;
+    color: #000;
+  }
+
+</style>

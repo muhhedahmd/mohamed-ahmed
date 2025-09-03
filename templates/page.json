@@ -51,6 +51,7 @@
           "blocks": {}
         },
         "ecom-expert-button-2": {
+
           "type": "ecom-expert-button",
           "static": true,
           "settings": {
@@ -63,11 +64,12 @@
           "blocks": {}
         },
         "ecom-expert-button-1": {
+
           "type": "ecom-expert-button",
           "static": true,
           "settings": {
             "button_text": "Shop Now",
-            "select-varient": "primary",
+            "select-varient": "secondary",
             "select-Text-case": "upcase",
             "button_url": "/",
             "checkbox": true
@@ -271,11 +273,19 @@
       "settings": {
         "product_list_title": "Tisso vision in the wild"
       }
+    },
+    "ecom_toast_hfEhzC": {
+      "type": "ecom-toast",
+      "name": "ecom-toast",
+      "settings": {
+        "checkbox": false
+      }
     }
   },
   "order": [
     "header_group_ecom_expert_7mDr8L",
     "ecom_expert_hero_HzJYmk",
-    "ecom_expert_grid_yjXa9L"
+    "ecom_expert_grid_yjXa9L",
+    "ecom_toast_hfEhzC"
   ]
 }

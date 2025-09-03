@@ -355,6 +355,7 @@ body {
 
   {%- if page.handle == "ecomexpert" -%}
 
+    {{ "ecom-grid.css" | asset_url | stylesheet_tag }}
 
     <body style="width: 100vw; overflow-x: hidden;" class="gradient ecomexpert{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
       {% sections 'header-group-ecom-expert' %}
@@ -368,7 +369,10 @@ body {
       </main>
 
     </body>
+
     <script src="{{ 'EcomHeaderMenu.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'ecom-tost.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'ecom-dialog.js' | asset_url }}" defer="defer"></script>
 
   {%- else -%}
     <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
