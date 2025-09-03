@@ -464,7 +464,12 @@ class Dialog extends ShopifyCartManager {
       this.cartItems = cartManager.cartItems
       this.renderCartItems()
 
-      if (res.ok) this.handleCloseDialog()
+      if (res.ok) {
+        
+        cartManager.toggleCartAnimation()
+        this.handleCloseDialog()
+      
+      }
     } catch (error) {
       console.error("Error adding to cart:", error)
     }

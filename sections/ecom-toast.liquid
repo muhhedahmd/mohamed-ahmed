@@ -1,62 +1,65 @@
-<div class="bullet-tost">
-  <div class="bullet-tost-inner">
-    <h3>
-      Cart Items
-    </h3>
-    <div>
+{%- if section.settings.checkbox == true -%}
+  <div class="bullet-tost">
+    <div class="bullet-tost-inner">
+      <h3>
+        Cart Items
+      </h3>
+      <div>
 
-      <button class="anim-btn">
+        <button class="anim-btn">
 
-        <img
-          src="{{"icon-cart.svg "|  asset_url }}"
-          alt="shopping cart icon"
-          height="60"
-          width="60" />
-        <p class="bullet-tost-count"></p>
-      </button>
+          <img
+            src="{{"icon-cart.svg" |  asset_url }}"
+            alt="shopping cart icon"
+            height="60"
+            width="60" />
+          <p class="bullet-tost-count"></p>
+        </button>
+      </div>
+    </div>
+    <div class="bullet-tost-body"></div>
+    <div class="bullet-tost-footer">
+      <div class="cart-summary">
+        <p class="summary-items">Items:
+          <span id="summary-items">0</span>
+        </p>
+        <p class="summary-subtotal">Subtotal:
+          <span id="summary-subtotal">$0.00</span>
+        </p>
+      </div>
+      <div style="gap: .5rem; display: flex; justify-content: space-between; align-items: center;">
+
+        <button
+          style="flex:3;"
+          onclick="location.href='/checkout'"
+          class="secondary ecom-expert-button ">
+          <div class="content-btn">
+            Checkout
+
+          </div>
+        </button>
+
+        <button
+          style="flex:3;"
+          onclick="location.href='/cart'"
+          class="cart  primary ecom-expert-button ">
+          <div class="content-btn">
+
+            Cart
+          </div>
+        </button>
+
+        <button style="flex:1; border: 1px solid transparent;" class="clear-cart secondary ecom-expert-button ">
+          <div class="content-btn">
+
+            Clear
+          </div>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="bullet-tost-body"></div>
-  <div class="bullet-tost-footer">
-    <div class="cart-summary">
-      <p class="summary-items">Items:
-        <span id="summary-items">0</span>
-      </p>
-      <p class="summary-subtotal">Subtotal:
-        <span id="summary-subtotal">$0.00</span>
-      </p>
-    </div>
-    <div style="gap: .5rem; display: flex; justify-content: space-between; align-items: center;">
+{%- endif -%}
 
-      <button
-        style="flex:3;"
-        onclick="location.href='/checkout'"
-        class="secondary ecom-expert-button {{ class }}">
-        <div class="content-btn">
-          Checkout
-
-        </div>
-      </button>
-
-      <button
-        style="flex:3;"
-        onclick="location.href='/cart'"
-        class="cart  primary ecom-expert-button {{ class }}">
-        <div class="content-btn">
-
-          Cart
-        </div>
-      </button>
-
-      <button style="flex:1; border: 1px solid transparent;" class="clear-cart secondary ecom-expert-button ">
-        <div class="content-btn">
-
-          Clear
-        </div>
-      </button>
-    </div>
-  </div>
-</div>
 
 <style>
 
@@ -346,7 +349,8 @@
       {
         "type": "checkbox",
         "label": "show notification",
-        "id": "checkbox"
+        "id": "checkbox",
+        "default": true
       }
     ],
     "presets": [

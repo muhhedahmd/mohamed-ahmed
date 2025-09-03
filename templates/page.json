@@ -51,7 +51,6 @@
           "blocks": {}
         },
         "ecom-expert-button-2": {
-
           "type": "ecom-expert-button",
           "static": true,
           "settings": {
@@ -64,7 +63,6 @@
           "blocks": {}
         },
         "ecom-expert-button-1": {
-
           "type": "ecom-expert-button",
           "static": true,
           "settings": {
@@ -101,7 +99,7 @@
               "type": "ecom-dialog-product",
               "name": "ecom-dialog-product",
               "settings": {
-                "position-x": 60,
+                "position-x": 58,
                 "position-y": 55
               },
               "blocks": {}
@@ -122,7 +120,7 @@
               "type": "ecom-dialog-product",
               "name": "ecom-dialog-product",
               "settings": {
-                "position-x": 87,
+                "position-x": 76,
                 "position-y": 50
               },
               "blocks": {}
@@ -143,7 +141,7 @@
               "type": "ecom-dialog-product",
               "name": "ecom-dialog-product",
               "settings": {
-                "position-x": 64,
+                "position-x": 57,
                 "position-y": 20
               },
               "blocks": {}
@@ -206,7 +204,7 @@
               "type": "ecom-dialog-product",
               "name": "ecom-dialog-product",
               "settings": {
-                "position-x": 78,
+                "position-x": 69,
                 "position-y": 41
               },
               "blocks": {}
@@ -248,7 +246,7 @@
               "type": "ecom-dialog-product",
               "name": "ecom-dialog-product",
               "settings": {
-                "position-x": 70,
+                "position-x": 53,
                 "position-y": 57
               },
               "blocks": {}
@@ -274,11 +272,11 @@
         "product_list_title": "Tisso vision in the wild"
       }
     },
-    "ecom_toast_hfEhzC": {
+    "ecom_toast_YXdeGm": {
       "type": "ecom-toast",
       "name": "ecom-toast",
       "settings": {
-        "checkbox": false
+        "checkbox": true
       }
     }
   },
@@ -286,6 +284,6 @@
     "header_group_ecom_expert_7mDr8L",
     "ecom_expert_hero_HzJYmk",
     "ecom_expert_grid_yjXa9L",
-    "ecom_toast_hfEhzC"
+    "ecom_toast_YXdeGm"
   ]
 }
