@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "header_group_ecom_expert_BECVAc": {
+      "type": "header-group-ecom-expert",
+      "blocks": {
+        "ecom_expert_button_bHx6cU": {
+          "type": "ecom-expert-button",
+          "settings": {
+            "button_text": "choose gift",
+            "select-varient": "primary",
+            "select-Text-case": "capitalize",
+            "button_url": "/",
+            "checkbox": true
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ecom_expert_button_bHx6cU"
+      ],
+      "name": "Ecom Expert Header",
+      "settings": {
+        "header_text": "Tisso Vison",
+        "header_caption": "Find the ideal gift for your loved ones.",
+        "color": "#f5f5f5",
+        "select-Text-case": "upcase"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "header_group_ecom_expert_BECVAc"
+  ]
+}

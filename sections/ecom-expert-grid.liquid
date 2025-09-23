@@ -1,0 +1,65 @@
+<section class="product-grid-section">
+  <h2>
+    {{ section.settings.product_list_title | default: 'Tisso vison in the wild' }}
+  </h2>
+  <div class="product-grid">
+    {%- if section.blocks.size == 0 -%}
+      {% for item in (1..6) %}
+        <div class="product-item ">
+
+          {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+        </div>
+      {% endfor %}
+
+      {% for item in (1..6) %}
+        <div class="product-item ">
+
+          {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+        </div>
+      {% endfor %}
+    {%- else -%}
+      {% content_for 'blocks' %}
+    {%- endif -%}
+  </div>
+</section>
+
+
+<div class="dialog-content"></div>
+
+<div class=" overlay dialog-overlay">
+  <span></span>
+</div>
+
+
+<style></style>
+{% schema %}
+  {
+    "name": "ecom-expert-grid",
+    "tag": "section",
+    "class": "product-grid-section-main",
+    "blocks": [
+      {
+        "type": "ecom-product"
+      }
+
+    ],
+
+    "settings": [
+      {
+
+        "type": "text",
+        "label": "Product List Title",
+        "id": "product_list_title",
+        "default": "Tisso vision in the wild"
+      }
+
+
+    ],
+    "presets": [
+      {
+        "name": "ecom-expert-grid",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

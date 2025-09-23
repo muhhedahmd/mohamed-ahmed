@@ -1,0 +1,27 @@
+<div class="cart-items">
+  {% for product in cart.items %}
+    <div class="cart-item" data-variant-id="{{ product.variant_id }}">
+      <img
+        src="{{ product.image | image_url: width: 200, height: 200 }}"
+        alt="{{ product.title }}"
+        width="100px"
+        height="100px"
+        class="cart-item-image" />
+      <div class="cart-item-details">
+
+        <h3>{{ product.title }}</h3>
+        <div class="cart-item-quantity" data-variant-id="{{ product.variant_id }}">
+          <button class="increase-button button-qty ">+
+          </button>
+          <p class="product-quantity">
+            {{ product.quantity }}</p>
+
+          <button class=" decrease-button button-qty">
+            -
+          </button>
+        </div>
+        <p class="cart-item-price">{{ product.final_line_price | money_with_currency }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>

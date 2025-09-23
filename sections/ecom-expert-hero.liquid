@@ -1,0 +1,136 @@
+{%- assign main-title = "The Gift Guide" -%}
+{%- assign main-sub-title = "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season." -%}
+
+<div class="body-hero">
+
+  <div>
+    <div class="banner-img-hero img1">
+      <p class="" style="display: none;"></p>
+      <div class="btn-mobile">
+
+        {% content_for 'block'
+          , type: 'ecom-expert-button'
+          , id: 'ecom-expert-button-2' %}
+      </div>
+
+    </div>
+  </div>
+
+  <div style="">
+
+
+    <div class=" text-section">
+      <h2 style="">
+        {{ section.settings.hero_title | default: main-title }}
+      </h2>
+      <div>
+
+        <p style="">
+          {{ section.settings.hero_subtitle | default: main-sub-title }}
+        </p>
+      </div>
+      {% content_for 'block'
+        , type: 'ecom-expert-button'
+        , id: 'ecom-expert-button-1' %}
+    </div>
+    <div style="">
+
+
+      <div class="banner-img-hero img2">
+        <p class="" style="display: none;"></p>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+<div class="text-section-hero-caption">
+  {{ section.settings.hero-caption | default: main-sub-title }}
+
+</div>
+
+
+{% content_for 'blocks' %}
+
+<style>
+  .img1 {
+    background-image: url({{ section.settings.hero_image_1 | image_url: width: 1920, height: 1080 }});
+  }
+  .img2 {
+    background-image: url({{ section.settings.hero_image_2 | image_url: width: 800, height: 600 }});
+  }
+  .banner-img-hero {
+    background-image: url('{{ "lifestyle-2.svg" | asset_url }}');
+  }
+
+</style>
+
+{{ "ecom-hero.css" | asset_url | stylesheet_tag }}
+
+{% schema %}
+  {
+    "name": "Ecom Expert Hero",
+    "tag": "section",
+    "class": "ecom-expert-hero",
+    "blocks": [
+      {
+
+        "type": "ecom-expert-button" 
+
+
+      } ,
+      {
+        "type": "ecom-cart"
+      }
+
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "hero_title",
+        "label": "Hero Title"
+
+      },
+      {
+        "type": "textarea",
+        "id": "hero_subtitle",
+        "label": "Hero Subtitle"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image_1",
+        "label": "Hero Image first"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image_2",
+        "label": "Hero Image second"
+      }, {
+        "type": "text",
+        "id": "hero-caption",
+        "label": "Hero Caption",
+        "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      } 
+      
+    ],
+    "presets": [
+      {
+        "name": "Ecom Expert Hero",
+        "settings": {
+          "hero_image_1": "",
+          "hero_image_2": "",
+          "hero_subtitle": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+          "hero_title": "The Gift Guide"
+        },
+        "blocks": [
+          {
+            "type": "ecom-expert-button"
+
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
