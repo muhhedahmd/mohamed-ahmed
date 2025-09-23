@@ -46,6 +46,9 @@ class ShopifyCartManager extends EventEmitter {
     this.cartItems = [];
     this.subtotal = {};
 
+    // fixed gift varient id 
+    this.FIXED_GIFT_ID = "50370665152807"
+
     // internal
     this._inited = false;
     this._listenedEvents = new Map(); // Map<eventName, handler | handler[]>
@@ -263,7 +266,6 @@ class ShopifyCartManager extends EventEmitter {
     this._boundOnFetchCartItem = null;
     this._boundOnQuantityUpdated = null;
 
-
     console.log("ShopifyCartManager disposed (all references cleared)");
   }
 
@@ -330,6 +332,7 @@ class ShopifyCartManager extends EventEmitter {
             (item.final_line_price / 100).toFixed(2),
           );
           if (priceEl) priceEl.textContent = formattedPrice;
+
           // if (priceFooter) priceFooter.querySelector("span")?.innerHTML = formattedPrice;
         } else {
           const cartItem = qtyElement.closest(".cart-item");
@@ -387,6 +390,7 @@ class ShopifyCartManager extends EventEmitter {
     if (target.classList.contains("decrease-button")) {
       const data = await this.updateQuantity(qtyWrapper, variantId, quantity - 1, qtyElement);
       if (data) this.updateSubtotalFromResponse(data);
+
       this.emit("cart:item-decreased", { variantId, newQuantity: quantity - 1, item: data?.items });
     }
   }
@@ -399,27 +403,30 @@ class ShopifyCartManager extends EventEmitter {
 
   // custom handlers 
   onNewItemAdded({ dataProduct, giftProduct }) {
-    // ... احتفظت بمنطقك كما هو
+
     if (!dataProduct) return;
     const isDataProductInCart = this.cartItems.find((item) => item.variant_id === dataProduct.variant_id);
     const isDataProductInDOM = this.cartBody?.querySelector(`[data-variant-id="${dataProduct.variant_id}"]`);
 
     if (!isDataProductInCart && !isDataProductInDOM) {
-      if (giftProduct) {
-        const isGiftInCart = this.cartItems.find((item) => item.variant_id === giftProduct.variant_id);
-        const isGiftInDOM = this.cartBody?.querySelector(`[data-variant-id="${giftProduct.variant_id}"]`);
-        if (!isGiftInCart && !isGiftInDOM) {
-          const giftProductHtml = this.generateCartItemHTML(giftProduct);
-          this.cartBody?.insertAdjacentHTML("beforeend", giftProductHtml);
-        }
-      }
-      const dataProductHtml = this.generateCartItemHTML(dataProduct);
-      this.cartBody?.insertAdjacentHTML("beforeend", dataProductHtml);
-    } else if (isDataProductInCart && !isDataProductInDOM) {
       const dataProductHtml = this.generateCartItemHTML(dataProduct);
       this.cartBody?.insertAdjacentHTML("beforeend", dataProductHtml);
     }
+
+    if (giftProduct) {
+      const isGiftInCart = this.cartItems.find((item) => item.variant_id === giftProduct.variant_id);
+      const isGiftInDOM = this.cartBody?.querySelector(`[data-variant-id="${giftProduct.variant_id}"]`);
+
+      if (!isGiftInCart && !isGiftInDOM) {
+        console.log('insert the gift product ')
+        const giftProductHtml = this.generateCartItemHTML(giftProduct, true);
+        this.cartBody?.insertAdjacentHTML("beforeend", giftProductHtml);
+      }
+
+    }
   }
+
+
 
   onCartItemIncreased({ variantId, newQuantity, item: EditedItem }) {
     this.emit("cart:fetch-cart-item", EditedItem);
@@ -429,12 +436,24 @@ class ShopifyCartManager extends EventEmitter {
 
   onCartItemDecreased({ variantId, newQuantity, item: EditedItem }) {
     this.cartItems = EditedItem;
+    const existingElement = this.cartBody?.querySelector(`.cart-item[data-variant-id="${variantId}"]`)
+    if (newQuantity === 0 && existingElement) {
+      existingElement.remove();
+    }
+    // check  if now the md and black varient  in cart remove gift  this.FIXED_GIFT_ID
+    const isGiftInCart = this.cartItems.find((item) => item.variant_id.toString() === this.FIXED_GIFT_ID.toString());
+    console.log(isGiftInCart, 'isGiftInCart')
+    if (isGiftInCart) {
+      this.removeGiftCartOnChanges(isGiftInCart)
+    }
     if (newQuantity > 0) {
+      console.log('newQuantity', newQuantity, EditedItem)
       this.emit("cart:fetch-cart-item", EditedItem);
       const updateItem = EditedItem.find((i) => i.variant_id == variantId);
       this.updateCartUI({ updateItem, variantId });
     }
   }
+
 
   onQuantityUpdated({ variantId, newQuantity }) {
     const item = this.cartItems.find((it) => it.id == variantId);
@@ -445,6 +464,50 @@ class ShopifyCartManager extends EventEmitter {
     this.cartItems = Array.isArray(data) ? [...data] : [];
   }
 
+  // helpers 
+
+  async removeGiftCartOnChanges(isGiftInCart) {
+
+    try {
+      const existingElementDOM = this.cartBody?.querySelector(`.cart-item[data-variant-id="${isGiftInCart.variant_id}"]`)
+      console.log(existingElementDOM, 'existingElementDOM')
+      const hasSomeMD_Black = this.cartItems.find((item) => {
+        const options = item.variant_options // ["Size" , "Color"]
+        return options.find((op) => op === "Black") && options.find((op) => op === "M") && (item.variant_id.toString() !== isGiftInCart.variant_id.toString())
+      })
+      if (!hasSomeMD_Black) {
+        if (existingElementDOM) {
+          const response = await fetch(`/cart/change.js`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              id: isGiftInCart.variant_id.toString(),
+              quantity: 0
+            }),
+          });
+          if (!response.ok) return;
+          const CartData = await response.json();
+          this.subtotal = {
+            items_subtotal_price: CartData.items_subtotal_price,
+            original_total_price: CartData.original_total_price,
+            total_discount: CartData.total_discount,
+            total_price: CartData.total_price,
+            item_count: CartData.item_count,
+          };
+          this.updateSubtotalDisplay();
+          existingElementDOM.remove();
+          this.emit("cart:fetch-cart-item", CartData.items);
+          const updateItem = CartData.items.find((i) => i.variant_id.toString() == isGiftInCart.variant_id.toString());
+          this.updateCartUI({ updateItem, variantId: isGiftInCart.variant_id.toString() });
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
   // ------------------------
   // UI helpers (render, update)
   // ------------------------
@@ -454,6 +517,8 @@ class ShopifyCartManager extends EventEmitter {
       const html = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
+      // data-variant-id="50370665152807"
+      // console.log(doc.querySelector(".cart-items "));
       const newCartItems = doc.querySelector(".cart-items");
 
       if (this.cartBody && newCartItems) {
@@ -517,18 +582,33 @@ class ShopifyCartManager extends EventEmitter {
   }
 
 
-  generateCartItemHTML(item) {
+  generateCartItemHTML(item, isGift) {
+    console.log({ isGift, item })
     const formattedPrice = window.money_with_currency_format.replace("{{amount}}", (item.final_line_price / 100).toFixed(2));
     return `
       <div class="cart-item" data-variant-id="${item.variant_id}">
         <img src="${item.featured_image?.url || ''}" alt="${item.featured_image?.alt || ''}" width="100" height="100" class="cart-item-image" />
         <div class="cart-item-details">
-          <h3>${item.title}</h3>
-          <div class="cart-item-quantity" data-variant-id="${item.variant_id}">
-            <button class="increase-button button-qty">+</button>
-            <p class="product-quantity">${item.quantity}</p>
-            <button class="decrease-button button-qty">-</button>
-          </div>
+        <div>
+
+        ${isGift ? `
+         <div style="width: 100%;" class="cart-item-details">
+        <div class="ecom-header-product">
+          <h3> ${item.title} </h3>
+            <span class="gift-badge">Gift Product</span>
+        </div>`:
+        `<h3>${item.title}</h3>`
+      }
+
+        </div>
+        ${item.variant_id == this.FIXED_GIFT_ID ?
+        ` <p class="product-quantity">Quantity: ${item.quantity}</p>`
+          :` <div class="cart-item-quantity" data-variant-id="${item.variant_id}">
+              <button class="increase-button button-qty">+</button>
+              <p class="product-quantity">${item.quantity}</p>
+              <button class="decrease-button button-qty">-</button>
+            </div>`
+          }
           <p class="cart-item-price">${formattedPrice}</p>
         </div>
       </div>

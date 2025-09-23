@@ -7,19 +7,32 @@
         width="100px"
         height="100px"
         class="cart-item-image" />
-      <div class="cart-item-details">
+      <div style="width: 100%;" class="cart-item-details">
 
-        <h3>{{ product.title }}</h3>
-        <div class="cart-item-quantity" data-variant-id="{{ product.variant_id }}">
-          <button class="increase-button button-qty ">+
-          </button>
-          <p class="product-quantity">
-            {{ product.quantity }}</p>
+        <div class="ecom-header-product">
 
-          <button class=" decrease-button button-qty">
-            -
-          </button>
+          <h3>{{ product.title }}</h3>
+          {%- if product.variant_id == 50370665152807 -%}
+            <span class="gift-badge">Gift Product</span>
+          {%- endif -%}
         </div>
+
+        {%- if product.variant_id == 50370665152807 -%}
+
+          <p class="product-quantity">Quantity: {{ product.quantity }}</p>
+        {%- else -%}
+          <div class="cart-item-quantity" data-variant-id="{{ product.variant_id }}">
+            <button class="increase-button button-qty ">+
+            </button>
+            <p class="product-quantity">
+              {{ product.quantity }}</p>
+
+            <button class=" decrease-button button-qty">
+              -
+            </button>
+          </div>
+
+        {%- endif -%}
         <p class="cart-item-price">{{ product.final_line_price | money_with_currency }}</p>
       </div>
     </div>

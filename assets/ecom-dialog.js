@@ -1,6 +1,6 @@
 
 /**
- * ================================================
+
  * PRODUCT DIALOG CLASS
  * ================================================
  * Handles product quick view dialog functionality
@@ -144,12 +144,7 @@ class Dialog {
   }
 
 
-  /* --------------------------------
-   bindDialogEvents - attach listeners for dynamic dialog content
-   --------------------------------
-   (English) Called after buildDialog sets innerHTML. Attaches form, color/select, close button, add-btn handlers.
-   It records them into _dialogListeners for removal.
-*/
+
 
   /* --------------------------------
      unbind - remove dialog DOM listeners and cartManager handlers
@@ -317,23 +312,22 @@ class Dialog {
    * @param {Event} e - Form submit event
    */
   async handleAddToCart(e) {
-    try {
-      e.preventDefault();
-      e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-      const form = e.target;
-      const variantInput = form.querySelector(".variant-id-input");
-      const submitter = e.submitter;
-      this.cartManager.setLoadingState(submitter, true);
+    const form = e.target;
+    const variantInput = form.querySelector(".variant-id-input");
+    const submitter = e.submitter;
+    this.cartManager.setLoadingState(submitter, true);
+    if (submitter && submitter.closest(".cart-item-quantity")) {
+      await this.handleItemQtyBtns(submitter);
+      return;
+    }
+
+    if (!variantInput) return;
+    try {
       // console.log("submitter:", submitter , form , e.target , e.currentTarget , e.submitter) ; 
 
-      // Handle quantity button clicks
-      if (submitter && submitter.closest(".cart-item-quantity")) {
-        await this.handleItemQtyBtns(submitter);
-        return;
-      }
-
-      if (!variantInput) return;
 
       // Add main product to cart
       const response = await fetch("/cart/add.js", {
@@ -374,28 +368,24 @@ class Dialog {
     if (!dataProduct || !giftProduct) return;
 
     const existingElement = this.cartManager.cartBody.querySelector(`[data-variant-id="${dataProduct.variant_id}"]`);
-    const renderedItem = this.renderCartItem(dataProduct);
-    const parser = new DOMParser();
-    const parsed = parser.parseFromString(renderedItem, "text/html");
-
+    console.log("existingElement" , existingElement)
+    // const renderedItem = this.renderCartItem(dataProduct);
+    // const parser = new DOMParser();
+    // const parsed = parser.parseFromString(renderedItem, "text/html");
+    
     if (dataProduct.quantity <= 0) {
       if (existingElement) existingElement.remove();
       return;
     }
 
-    if (existingElement && dataProduct.quantity > 0) {
-      existingElement.querySelector(".product-quantity").textContent = dataProduct.quantity;
-      existingElement.querySelector(".cart-item-price").textContent = parsed.querySelector(".cart-item-price").textContent;
+    if(giftProduct.quantity <= 0) {
+      const existingElementGigt = this.cartManager.cartBody.querySelector(`[data-variant-id="${giftProduct.variant_id}"]`);
+      if (existingElementGigt) existingElementGigt.remove();
+      return
     }
 
-    if (giftProduct) {
-      const giftItem = this.renderCartItem(giftProduct);
-      this.cartManager.cartBody.insertAdjacentHTML("beforeend", giftItem);
-    }
-
-    if (!existingElement) {
-      this.cartManager.cartBody.insertAdjacentHTML("beforeend", renderedItem);
-    }
+  
+  
   }
 
   /**
@@ -586,10 +576,15 @@ class Dialog {
   }
 
   /**
+   bindDialogEvents - attach listeners for dynamic dialog content
+   --------------------------------
+   (English) Called after buildDialog sets innerHTML. Attaches form, color/select, close button, add-btn handlers.
+   It records them into _dialogListeners for removal.
+
    * Bind dialog-specific events
    * @param {Object} product - Product data
    */
-    bindDialogEvents(product, firstVariant) {
+    bindDialogEvents(product) {
     // re-resolve dialogContent in case it was replaced
     this.dialogContent = document.querySelector(this.dialogContentSelector);
     if (!this.dialogContent) return;
@@ -631,9 +626,8 @@ class Dialog {
       if (!this._boundSelectChange) {
         this._boundSelectChange = (e) => {
           this.selectedSize = e.target.value;
-          const variantInput = this.dialogContent.querySelector(".variant-id-input");
-          const footer = this.dialogContent.querySelector(".dialog-footer");
-          this.updateChanges?.(product, variantInput, this.dialogContent, footer);
+   
+          this.refreshDialogUI()
         };
       }
       attach(select, "change", this._boundSelectChange);
@@ -718,7 +712,6 @@ class Dialog {
       "{{amount}}",
       (cartItem.final_line_price / 100).toFixed(2),
     );
-
     footer.innerHTML = "";
     footer.style.flexDirection = "column";
     footer.style.alignItems = "start";
@@ -826,6 +819,7 @@ class Dialog {
    * @returns {Promise<Object|null>} Gift product data or null
    */
   async addGiftProduct() {
+    
     try {
       const response = await fetch(`/products/dark-winter-jacket.json`);
       const softWinterJacket = await response.json();
@@ -867,11 +861,12 @@ class Dialog {
     let subtotalObj = this.calculateSubtotalUpdate(dataProduct, giftProduct);
 
     // Emit events
-    this.cartManager.emit("cart:updated", {
-      cartBody: this.cartManager.cartBody,
-      dataProduct,
-      giftProduct,
-    });
+    // use less event
+    // this.cartManager.emit("cart:updated", {
+    //   cartBody: this.cartManager.cartBody,
+    //   dataProduct,
+    //   giftProduct,
+    // });
 
     this.cartManager.emit("cart:new-item-added", {
       dataProduct,
@@ -941,7 +936,11 @@ class Dialog {
       item_count: item.item_count,
     };
     this.cartManager.updateSubtotalDisplay();
+    // console.log('item', item)
   }
+
+
+
 
   /**
    * Render cart item HTML

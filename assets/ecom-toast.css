@@ -272,6 +272,9 @@
     margin: 0;
   }
 
+  .cart-item-details{
+    width: 100%;
+  }
   .cart-item-details h3 {
     font-size: 1.6rem;
   }
@@ -313,3 +316,24 @@
     left: 84%
   }
 }
+
+
+.ecom-header-product {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .gift-badge {
+    text-wrap: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    background: #ff0000;
+    color: #ffffff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 33px;
+    box-shadow: 2px 3px 4px #ddd;
+    font-weight: bold;
+  }
