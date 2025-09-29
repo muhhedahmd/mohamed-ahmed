@@ -33,7 +33,11 @@
           </div>
 
         {%- endif -%}
-        <p class="cart-item-price">{{ product.final_line_price | money_with_currency }}</p>
+        <p
+          class="cart-item-price"
+          {%- if product.variant_id == 50370665152807 -%}
+          style=" text-decoration: line-through"
+          {%- endif -%}>{{ product.final_line_price | money_with_currency }}</p>
       </div>
     </div>
   {% endfor %}

@@ -356,6 +356,7 @@ body {
 
   {%- if page.handle == "ecomexpert" -%}
 
+
     {{ "ecom-grid.css" | asset_url | stylesheet_tag }}
     {{ "ecom-toast.css" | asset_url | stylesheet_tag }}
     {{ "ecom-product-cart.css" | asset_url | stylesheet_tag }}
@@ -364,52 +365,64 @@ body {
         window.money_with_currency_format = {{ shop.money_with_currency_format | json }};
 
     </script>
+    {% comment %} <body style="width: 100vw; overflow-x: hidden;" class="gradient ecomexpert{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+                                                                        {% sections 'header-group-ecom-expert' %}
 
-    <body style="width: 100vw; overflow-x: hidden;" class="gradient ecomexpert{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-      {% sections 'header-group-ecom-expert' %}
+                                                                        <main
+                                                                          style="width: 99.9vw !important; overflow-x: hidden;"
+                                                                          id="MainContent"
+                                                                          class="content-for-layout focus-none"
+                                                                          role="main"
+                                                                          tabindex="-1">
+                                                                          {{ content_for_layout }}
+                                                                        </main>
 
-      <main
-        id="MainContent"
-        class="content-for-layout focus-none"
-        role="main"
-        tabindex="-1">
-        {{ content_for_layout }}
-      </main>
+                                                </body> {% endcomment %}
 
-    </body>
+  {%- endif -%}
 
+
+  {% if page.handle == "ecomexpert" %}
     <script src="{{ 'EcomHeaderMenu.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'ecom-tost.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'ecom-dialog.js' | asset_url }}" defer="defer"></script>
 
-  {%- else -%}
-    <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-      <a class="skip-to-content-link button visually-hidden" href="#MainContent">
-        {{ 'accessibility.skip_to_text' | t }}
-      </a>
+  {% endif %}
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
 
-      {%- if settings.cart_type == 'drawer' -%}
-        {%- render 'cart-drawer' -%}
-      {%- endif -%}
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {%- if page.handle != "ecomexpert" -%}
 
       {% sections 'header-group' %}
+    {%- else -%}
+      {% sections 'ecom-header-group' %}
+    {%- endif -%}
 
-      <main
-        id="MainContent"
-        class="content-for-layout focus-none"
-        role="main"
-        tabindex="-1">
-        {{ content_for_layout }}
-      </main>
+    <main
+      style="max-width: 99vw; overflow-x: hidden;"
+      id="MainContent"
+      class="content-for-layout focus-none"
+      role="main"
+      tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
+    {%- if page.handle != "ecomexpert" -%}
       {% sections 'footer-group' %}
+    {%- endif -%}
 
-      <ul hidden>
-        <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
-        <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
-      </ul>
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
 
-      <script>
+    <script>
               window.shopUrl = '{{ request.origin }}';
               window.routes = {
         cart_add_url: '{{ routes.cart_add_url }}',
@@ -452,16 +465,16 @@ body {
         recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
               };
-      </script>
+    </script>
 
-      {%- if settings.predictive_search_enabled -%}
-        <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
 
-      {%- if settings.cart_type == 'drawer' -%}
-        <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
-    </body>
-  {%- endif -%}
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+  </body>
 
 </html>

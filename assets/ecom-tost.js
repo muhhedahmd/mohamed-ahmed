@@ -10,7 +10,7 @@ class EventEmitter {
     if (!this.events[event]) this.events[event] = [];
     this.events[event].push(callback);
   }
-
+ 
   emit(event, data) {
     if (this.events[event]) {
       this.events[event].forEach((cb) => {
@@ -47,6 +47,7 @@ class ShopifyCartManager extends EventEmitter {
     this.subtotal = {};
 
     // fixed gift varient id 
+    // using metafield will be better approach
     this.FIXED_GIFT_ID = "50370665152807"
 
     // internal
@@ -67,8 +68,8 @@ class ShopifyCartManager extends EventEmitter {
     this._boundOnFetchCartItem = this.onFetchCartItem.bind(this);
     this._boundOnQuantityUpdated = this.onQuantityUpdated.bind(this);
 
-    this.handleShopifySectionLoad = this._onShopifySectionLoad.bind(this);
-    this.handleShopifySectionUnload = this._onShopifySectionUnload.bind(this);
+    // this.handleShopifySectionLoad = this._onShopifySectionLoad.bind(this);
+    // this.handleShopifySectionUnload = this._onShopifySectionUnload.bind(this);
 
     // init
     this.init();
@@ -80,7 +81,6 @@ class ShopifyCartManager extends EventEmitter {
   init() {
     if (this._inited) return;
     this._inited = true;
-    console.log("intt")
 
 
     this.bindEvents();
@@ -145,34 +145,33 @@ class ShopifyCartManager extends EventEmitter {
     }
   }
 
-  // useless functions
-  _onShopifySectionLoad(event) {
+  // Shopify Section
+  // _onShopifySectionLoad(event) {
+  //   try {
 
-    try {
+  //     const section_id = this.bulletTost?.dataset?.sectionId;
+  //     if (event?.detail?.sectionId === section_id) {
+  //       console.log("Shopify section loaded -> rebind/render");
+  //       this.bindEvents();
+  //       this.renderCartItems();
+  //       this.fetchCartItems();
+  //     }
+  //   } catch (err) {
+  //     console.warn("section load handler error", err);
+  //   }
+  // }
+  // _onShopifySectionUnload(event) {
 
-      const section_id = this.bulletTost?.dataset?.sectionId;
-      if (event?.detail?.sectionId === section_id) {
-        console.log("Shopify section loaded -> rebind/render");
-        this.bindEvents();
-        this.renderCartItems();
-        this.fetchCartItems();
-      }
-    } catch (err) {
-      console.warn("section load handler error", err);
-    }
-  }
-  _onShopifySectionUnload(event) {
-
-    try {
-      const section_id = this.bulletTost?.dataset?.sectionId;
-      if (event?.detail?.sectionId === section_id) {
-        console.log("Shopify section unload -> destroy");
-        this.destroy();
-      }
-    } catch (err) {
-      console.warn("section unload handler error", err);
-    }
-  }
+  //   try {
+  //     const section_id = this.bulletTost?.dataset?.sectionId;
+  //     if (event?.detail?.sectionId === section_id) {
+  //       console.log("Shopify section unload -> destroy");
+  //       this.destroy();
+  //     }
+  //   } catch (err) {
+  //     console.warn("section unload handler error", err);
+  //   }
+  // }
 
   // ------------------------
   // destroy & dispose
@@ -180,7 +179,7 @@ class ShopifyCartManager extends EventEmitter {
   destroy({ clearDom = false } = {}) {
     if (!this._inited) return;
 
-    // 1) remove DOM listeners
+    //remove DOM listeners
     try {
       if (this.animBtn) this.animBtn.removeEventListener("click", this.handleAnimBtnClick);
       if (this.overlay) this.overlay.removeEventListener("click", this.handleOverlayClick);
@@ -193,7 +192,7 @@ class ShopifyCartManager extends EventEmitter {
 
 
 
-    // 3) remove custom EventEmitter listeners using the map
+    //  remove custom EventEmitter listeners using the map
     try {
 
       if (typeof this.off === "function") {
@@ -217,12 +216,12 @@ class ShopifyCartManager extends EventEmitter {
 
     }
 
-    // 4) optional: clear DOM content
+    //  clear DOM content
     if (clearDom && this.cartBody) {
       try { this.cartBody.innerHTML = ""; } catch (e) { console.warn(e); }
     }
 
-    // 5) reset UI state
+    //reset UI state
     try {
       if (this.bulletTost) {
         this.bulletTost.classList.remove("animate");
@@ -235,7 +234,7 @@ class ShopifyCartManager extends EventEmitter {
       console.warn("Error resetting UI:", err);
     }
 
-    // 6) reset internal state
+    // reset internal state
     this.cartItems = [];
     this.subtotal = {};
     this._inited = false;
@@ -273,7 +272,6 @@ class ShopifyCartManager extends EventEmitter {
   toggleCartAnimation(e) {
 
     if (!this.bulletTost || !this.bulletTostInner || !this.overlay) return;
-    console.log(this.bulletTost.classList.contains("animate"));
     this.bulletTost.classList.toggle("animate");
     this.bulletTostInner.classList.toggle("bullet-tost-header");
     if (this.bulletTost.classList.contains("animate")) {
@@ -353,7 +351,10 @@ class ShopifyCartManager extends EventEmitter {
 
 
   async handleClearCart() {
+    console.log("Clearing cart..."  , this.cartItems)
+    if(this.cartItems.length === 0) return
     try {
+      this.setLoadingState(this.clearCartBtn, true)
       this.setLoadingState(this.cartBody, true);
       const response = await fetch("/cart/clear.js", { method: "POST" });
       if (response.ok) {
@@ -362,10 +363,14 @@ class ShopifyCartManager extends EventEmitter {
         await this.fetchCartItems();
         this.subtotal = { items_subtotal_price: 0, original_total_price: 0, total_discount: 0, total_price: 0, item_count: 0 };
         this.updateSubtotalDisplay();
+        this.emit("cart:cleared");
+        this.cartItems = [];
       }
     } catch (err) {
+
       console.error("Error clearing cart:", err);
     } finally {
+            this.setLoadingState(this.clearCartBtn, false)
       this.setLoadingState(this.cartBody, false);
     }
   }
@@ -403,33 +408,46 @@ class ShopifyCartManager extends EventEmitter {
 
   // custom handlers 
   onNewItemAdded({ dataProduct, giftProduct }) {
+    // console.log({ dataProduct, giftProduct });
 
     if (!dataProduct) return;
     const isDataProductInCart = this.cartItems.find((item) => item.variant_id === dataProduct.variant_id);
+    // console.log({isDataProductInCart,} )
     const isDataProductInDOM = this.cartBody?.querySelector(`[data-variant-id="${dataProduct.variant_id}"]`);
 
-    if (!isDataProductInCart && !isDataProductInDOM) {
+     
+    if ((!isDataProductInCart && !isDataProductInDOM )|| ( isDataProductInCart && !isDataProductInDOM)) {
       const dataProductHtml = this.generateCartItemHTML(dataProduct);
       this.cartBody?.insertAdjacentHTML("beforeend", dataProductHtml);
     }
 
     if (giftProduct) {
+
+      console.log('there is gift product to add' , giftProduct)
       const isGiftInCart = this.cartItems.find((item) => item.variant_id === giftProduct.variant_id);
       const isGiftInDOM = this.cartBody?.querySelector(`[data-variant-id="${giftProduct.variant_id}"]`);
-
-      if (!isGiftInCart && !isGiftInDOM) {
+      console.log({isGiftInCart, isGiftInDOM})
+      if (isGiftInCart && !isGiftInDOM) {
         console.log('insert the gift product ')
         const giftProductHtml = this.generateCartItemHTML(giftProduct, true);
         this.cartBody?.insertAdjacentHTML("beforeend", giftProductHtml);
       }
 
     }
+  
+    //   try {
+    //   const newData =  giftProduct ? [...this.cartItems, giftProduct, dataProduct] : [dataProduct, ...this.cartItems]
+    //   console.log(newData)
+    //   this.cartItems = [...newData  , ...this.cartItems]
+      
+    // } catch (error) {
+    //     console.log(error)
+    // }
   }
 
 
-
   onCartItemIncreased({ variantId, newQuantity, item: EditedItem }) {
-    this.emit("cart:fetch-cart-item", EditedItem);
+    this.emit("cart:fetch-cart-item", EditedItem); // not reFetch just update the cartItems
     const updateItem = EditedItem.find((i) => i.variant_id == variantId);
     this.updateCartUI({ updateItem, variantId });
   }
@@ -440,15 +458,15 @@ class ShopifyCartManager extends EventEmitter {
     if (newQuantity === 0 && existingElement) {
       existingElement.remove();
     }
+
     // check  if now the md and black varient  in cart remove gift  this.FIXED_GIFT_ID
     const isGiftInCart = this.cartItems.find((item) => item.variant_id.toString() === this.FIXED_GIFT_ID.toString());
-    console.log(isGiftInCart, 'isGiftInCart')
     if (isGiftInCart) {
       this.removeGiftCartOnChanges(isGiftInCart)
     }
+
     if (newQuantity > 0) {
-      console.log('newQuantity', newQuantity, EditedItem)
-      this.emit("cart:fetch-cart-item", EditedItem);
+      this.emit("cart:fetch-cart-item", EditedItem); // not reFetch just update the cartItems
       const updateItem = EditedItem.find((i) => i.variant_id == variantId);
       this.updateCartUI({ updateItem, variantId });
     }
@@ -461,16 +479,17 @@ class ShopifyCartManager extends EventEmitter {
   }
 
   onFetchCartItem(data) {
+    console.log('onFetchCartItem', data , this.cartItems)
     this.cartItems = Array.isArray(data) ? [...data] : [];
+    console.log('added' , this.cartItems)
   }
 
   // helpers 
-
+  // at least one md and black varient in cart remove gift
   async removeGiftCartOnChanges(isGiftInCart) {
 
     try {
       const existingElementDOM = this.cartBody?.querySelector(`.cart-item[data-variant-id="${isGiftInCart.variant_id}"]`)
-      console.log(existingElementDOM, 'existingElementDOM')
       const hasSomeMD_Black = this.cartItems.find((item) => {
         const options = item.variant_options // ["Size" , "Color"]
         return options.find((op) => op === "Black") && options.find((op) => op === "M") && (item.variant_id.toString() !== isGiftInCart.variant_id.toString())
@@ -517,8 +536,6 @@ class ShopifyCartManager extends EventEmitter {
       const html = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
-      // data-variant-id="50370665152807"
-      // console.log(doc.querySelector(".cart-items "));
       const newCartItems = doc.querySelector(".cart-items");
 
       if (this.cartBody && newCartItems) {
@@ -535,10 +552,10 @@ class ShopifyCartManager extends EventEmitter {
         item_count: cartsData.item_count,
       };
 
+      this.cartItems = cartsData.items || [];
       this.updateSubtotalDisplay();
       if (this.bulletTost) this.bulletTost.style.display = "block";
 
-      this.cartItems = cartsData.items || [];
       this.emit("cart:updated", this.cartItems);
     } catch (err) {
       console.error("Error rendering cart items:", err);
@@ -557,14 +574,30 @@ class ShopifyCartManager extends EventEmitter {
     }
   }
 
+
+
+
   updateSubtotalDisplay() {
-    const subtotal = ((this.subtotal.total_price || 0) / 100).toFixed(2);
+    console.log('updateSubtotalDisplay', this.subtotal)
+    
+    const checkIsGigtInCart = this.cartItems.find((item) => item.variant_id.toString() === this.FIXED_GIFT_ID.toString());
+
+
+    // if there gift in cart and total price is equal to total price  
+    // if (checkIsGigtInCart && totalPrice === totalPriceOfCart) {
+    //   this.subtotal.total_price = totalPriceOfCart - checkIsGigtInCart.final_line_price;
+    // }
+
+
+    
+    const subtotal = ((this.subtotal.total_price - (checkIsGigtInCart?.final_line_price || 0 )  || 0) / 100).toFixed(2);
     const summaryItems = this.bulletTost?.querySelector("#summary-items");
     const summarySubtotal = this.bulletTost?.querySelector("#summary-subtotal");
     const countElement = this.bulletTost?.querySelector(".bullet-tost-count");
 
     if (summaryItems) summaryItems.textContent = this.subtotal.item_count || 0;
     if (summarySubtotal) summarySubtotal.textContent = window.money_with_currency_format.replace("{{amount}}", subtotal);
+
 
     const count = this.subtotal.item_count || 0;
     if (countElement) countElement.textContent = count >= 10 ? "9+" : count.toString();
@@ -609,7 +642,7 @@ class ShopifyCartManager extends EventEmitter {
               <button class="decrease-button button-qty">-</button>
             </div>`
           }
-          <p class="cart-item-price">${formattedPrice}</p>
+          <p class="cart-item-price " style='${ item.variant_id == this.FIXED_GIFT_ID && "text-decoration: line-through" }'>${formattedPrice}</p>
         </div>
       </div>
     `;
@@ -642,10 +675,12 @@ class ShopifyCartManager extends EventEmitter {
   // public API
   getCartItems() { return this.cartItems; }
   refresh() { this.renderCartItems(); }
+
   getCartCount() {
     const countElement = document.querySelector(".bullet-tost-count");
     return countElement ? countElement.textContent : "0";
   }
+
   open() { if (this.bulletTost && !this.bulletTost.classList.contains("animate")) this.toggleCartAnimation(); }
   close() { if (this.bulletTost && this.bulletTost.classList.contains("animate")) this.closeCart(); }
 }
@@ -656,16 +691,15 @@ class ShopifyCartManager extends EventEmitter {
 
 const cartManager = new ShopifyCartManager();
 if (!window.cartManager) {
-  window.cartManager = cartManager; // or ensure created elsewhere
+  window.cartManager = cartManager; 
 }
 
 document.addEventListener("shopify:section:load", (event) => {
   console.log("Shopify section loaded -> rebind/render");
 
 
-  if (window.cartManager && typeof window.cartManager.destroy === "function") {
-    window.cartManager.destroy();
-
+  if (window.cartManager && typeof window.cartManager.dispose === "function") {
+    window.cartManager.dispose();
   }
 
   const cartManager = new ShopifyCartManager();
@@ -676,8 +710,8 @@ document.addEventListener("shopify:section:load", (event) => {
 
 document.addEventListener("shopify:section:unload", (event) => {
 
-  if (window.cartManager && typeof window.cartManager.destroy === "function") {
-    window.cartManager.destroy();
+  if (window.cartManager && typeof window.cartManager.dispose === "function") {
+    window.cartManager.dispose();
     delete window.cartManager;
   }
   console.log("cartManager initialized for section:",);

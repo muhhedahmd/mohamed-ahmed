@@ -1,3 +1,7 @@
+
+
+
+
 /*
  * ------------------------------------------------------------
  * IMPORTANT: The contents of this file are auto-generated.
@@ -11,26 +15,7 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "header": {
-      "type": "header",
-      "settings": {
-        "logo_position": "middle-left",
-        "mobile_logo_position": "center",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "enable_customer_avatar": true,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
-    "header_group_ecom_expert_BECVAc": {
+       "header_group_ecom_expert_BECVAc": {
       "type": "header-ecom-expert",
       "blocks": {
         "ecom_expert_button_bHx6cU": {
@@ -56,9 +41,10 @@
         "select-Text-case": "upcase"
       }
     }
+    
+   
   },
   "order": [
-    "header",
-    "header_group_ecom_expert_BECVAc"
+    "header_group_ecom_expert_BECVAc",
   ]
 }

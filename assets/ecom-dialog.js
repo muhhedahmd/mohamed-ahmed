@@ -1,4 +1,5 @@
 
+
 /**
 
  * PRODUCT DIALOG CLASS
@@ -30,11 +31,13 @@ class Dialog {
     this.selectedColor = null;
     this.selectedSize = null;
 
+    
     // internal bookkeeping for listeners
     // array of {el, type, handler, options}
     this._dialogListeners = [];
     // Map of cartManager eventName -> handlerFn
     this._cartBoundHandlers = new Map();
+
     // bound references for top-level handlers so removeEventListener works
     this._boundHandleClickGrid = null;
     this._boundHandleCloseDialog = null;
@@ -578,8 +581,7 @@ class Dialog {
   /**
    bindDialogEvents - attach listeners for dynamic dialog content
    --------------------------------
-   (English) Called after buildDialog sets innerHTML. Attaches form, color/select, close button, add-btn handlers.
-   It records them into _dialogListeners for removal.
+
 
    * Bind dialog-specific events
    * @param {Object} product - Product data
@@ -640,7 +642,7 @@ class Dialog {
       attach(form, "submit", this._boundFormSubmit);
     }
 
-    // Add button (non-submit fallback)
+    // Add button 
     const addBtn = this.dialogContent.querySelector(".AddCart-dialog");
     if (addBtn) {
       if (!this._boundAddBtnClick) {
@@ -852,34 +854,44 @@ class Dialog {
    * @param {Object} giftProduct - Gift product data (optional)
    */
   handleSuccessfulAddToCart(dataProduct, giftProduct) {
+   
     this.onFetchCartItem(
       giftProduct ? [...this.cartItems, giftProduct, dataProduct] : [dataProduct, ...this.cartItems]
     );
-    this.refreshDialogUI();
 
+   
+    this.cartManager.onFetchCartItem(
+      giftProduct ? [...this.cartItems, giftProduct, dataProduct] : [dataProduct, ...this.cartItems]
+    );
+    
+    
+
+    
     // Update subtotal
     let subtotalObj = this.calculateSubtotalUpdate(dataProduct, giftProduct);
 
     // Emit events
     // use less event
     // this.cartManager.emit("cart:updated", {
-    //   cartBody: this.cartManager.cartBody,
-    //   dataProduct,
-    //   giftProduct,
-    // });
+      //   cartBody: this.cartManager.cartBody,
+      //   dataProduct,
+      //   giftProduct,
+      // });
+      
+      this.cartManager.emit("cart:new-item-added", {
+        dataProduct,
+        giftProduct,
 
-    this.cartManager.emit("cart:new-item-added", {
-      dataProduct,
-      giftProduct,
-    });
-
-    if (subtotalObj) {
-      this.cartManager.subtotal = subtotalObj;
-      this.cartManager.updateSubtotalDisplay();
-    }
-
-    this.handleCloseDialog();
-    this.cartManager.open();
+      });
+      
+      if (subtotalObj) {
+        this.cartManager.subtotal = subtotalObj;
+        this.cartManager.updateSubtotalDisplay();
+      }
+      
+      this.handleCloseDialog();
+      this.cartManager.open();
+      this.refreshDialogUI();
   }
 
   /**
